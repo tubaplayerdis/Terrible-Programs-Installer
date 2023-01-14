@@ -1,0 +1,9 @@
+To do:
+1 navigation view layout
+2 setup navigation
+3 program installer
+
+Ideas:
+json save file for keeping info on installed programs
+installation checker
+beta program(latest versions)
