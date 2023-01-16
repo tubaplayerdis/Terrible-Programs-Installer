@@ -9,7 +9,7 @@
 
 
 int DebugTools::SettingsClass::UIdebugenabled = 0;
-std::string DebugTools::SettingsClass::installslocation = "C://TPI/apps/";
+std::string DebugTools::SettingsClass::installslocation = "C:/TPI/apps/";
 int DebugTools::SettingsClass::downloadspeedlimit = -1;
 
 namespace fs = std::filesystem;
@@ -30,7 +30,7 @@ void DebugTools::SettingsClass::ToggleConsole()
 void DebugTools::SettingsClass::SetDefualts()
 {
 	
-	DebugTools::SettingsClass::installslocation = "C://TPI/apps/";
+	DebugTools::SettingsClass::installslocation = "C:/TPI/apps/";
 	DebugTools::SettingsClass::downloadspeedlimit = -1;
 	DebugTools::SettingsClass::ToggleConsole(false);
 	DebugTools::SettingsClass::UIdebugenabled = 0;
@@ -100,7 +100,7 @@ void DebugTools::SettingsClass::CreateNewFile()
 
 	//CreateDocument
 	auto root = doc.append_child("Settings");
-	doc.child("Settings").append_attribute("InstallationsPath").set_value("C://TPI/apps/");
+	doc.child("Settings").append_attribute("InstallationsPath").set_value("C:/TPI/apps/");
 	doc.child("Settings").append_attribute("DownloadSpeedLimit").set_value(-1);
 	doc.child("Settings").append_attribute("UiDebugEnabled").set_value(0);
 
@@ -116,7 +116,7 @@ void DebugTools::SettingsClass::CreateNewFile()
 }
 
 void DebugTools::SettingsClass::SaveSettings()
-{
+{	
 	if (!fs::exists("settings.xml")) {
 		std::ofstream SettingsFile("Settings.xml");
 		SettingsFile.close();
