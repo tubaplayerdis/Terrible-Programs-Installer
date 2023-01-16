@@ -9,6 +9,7 @@
 #include "HelpfulDebuggerv2.g.cpp"
 #endif
 #include <DConsole.hpp>
+#include "SettingsClass.h"
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -21,6 +22,13 @@ namespace winrt::Terrible_Programs_Installer::implementation
     HelpfulDebuggerv2::HelpfulDebuggerv2()
     {
         InitializeComponent();
+        if (DebugTools::SettingsClass::UIdebugenabled == 0) {
+
+        }
+        else
+        {
+            HelpfulDebuggerv2::EnableUIDebug(DebugTools::SettingsClass::UIdebugenabled);
+        }
     }
 
     void HelpfulDebuggerv2::EnableUIDebug(int toggle)

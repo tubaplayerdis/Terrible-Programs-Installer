@@ -5,6 +5,7 @@
 #include "SettingsPage.xaml.h"
 #include <windows.h>
 #include "DConsole.hpp"
+#include <SettingsClass.h>
 #if __has_include("SettingsPage.g.cpp")
 #include "SettingsPage.g.cpp"
 #endif
@@ -53,4 +54,10 @@ void winrt::Terrible_Programs_Installer::implementation::SettingsPage::Check_Con
     }
     
     
+}
+
+
+void winrt::Terrible_Programs_Installer::implementation::SettingsPage::Slider_ValueChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs const& e)
+{
+    DebugTools::SettingsClass::UIdebugenabled = (int)e.NewValue();
 }

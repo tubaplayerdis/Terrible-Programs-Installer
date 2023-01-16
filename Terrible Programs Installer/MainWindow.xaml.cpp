@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 #include "DConsole.hpp"
+#include <pugixml.hpp>
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
 #endif
@@ -45,7 +46,12 @@ namespace winrt::Terrible_Programs_Installer::implementation
     void MainWindow::initwindow()
     {
 #pragma region ConsoleWork
+
+#if _DEBUG
         DebugTools::Console::_initializeConsole();
+#endif // DEBUG
+
+        
 
 #pragma endregion
 

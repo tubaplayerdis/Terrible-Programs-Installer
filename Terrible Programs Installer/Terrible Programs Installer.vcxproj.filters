@@ -22,6 +22,9 @@
     <ClCompile Include="..\DebugLibrary\DConsole.cpp">
       <Filter>outsiders</Filter>
     </ClCompile>
+    <ClCompile Include="..\DebugLibrary\SettingsClass.cpp">
+      <Filter>outsiders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

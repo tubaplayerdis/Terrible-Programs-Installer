@@ -95,6 +95,18 @@
                                    Margin="10 5"
                                    >
                         </TextBlock>
+                        <Slider
+                            Padding="3"
+                            Margin="10 5"
+                            HorizontalAlignment="Stretch"
+                            Header="Ui Debug Slider"
+                            Minimum="0"
+                            Maximum="2"
+                            Value="0"
+                            StepFrequency="1"
+                            ValueChanged="Slider_ValueChanged"
+                            >
+                        </Slider>
                     </StackPanel>
                     
 
