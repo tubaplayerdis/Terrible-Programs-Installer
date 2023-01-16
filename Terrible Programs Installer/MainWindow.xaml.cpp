@@ -6,7 +6,7 @@
 #include <windows.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
 #include "DConsole.hpp"
-#include <pugixml.hpp>
+#include "SettingsClass.hpp"
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
 #endif
@@ -74,6 +74,8 @@ namespace winrt::Terrible_Programs_Installer::implementation
         }
 #pragma endregion
 
+        //load in settings
+        DebugTools::SettingsClass::LoadSettings();
         
     }
 
