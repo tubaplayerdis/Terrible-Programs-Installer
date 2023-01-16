@@ -40,7 +40,7 @@ void DebugTools::SettingsClass::SetDefualts()
 void DebugTools::SettingsClass::LoadSettings()
 {
 	if (!fs::exists("settings.xml")) {
-		CreateNewFile();
+		DebugTools::SettingsClass::CreateNewFile();
 	}
 	//Document memory	
 	pugi::xml_document doc;
@@ -50,31 +50,39 @@ void DebugTools::SettingsClass::LoadSettings()
 	DebugTools::Console::_log(result.description());
 	//Checking if the settings exist
 	if (!doc.child("Settings")) {
-		CreateNewFile();
+		DebugTools::SettingsClass::CreateNewFile();
 		doc.load_file("settings.xml");
 	} 
 	if (!doc.child("Settings").attribute("InstallationsPath")) {
-		CreateNewFile();
+		DebugTools::SettingsClass::CreateNewFile();
 		doc.load_file("settings.xml");
 	}
 	if (!doc.child("Settings").attribute("DownloadSpeedLimit")) {
-		CreateNewFile();
+		DebugTools::SettingsClass::CreateNewFile();
 		doc.load_file("settings.xml");
 	}
 	if (!doc.child("Settings").attribute("UiDebugEnabled")) {
-		CreateNewFile();
+		DebugTools::SettingsClass::CreateNewFile();
 		doc.load_file("settings.xml");
 	}
 
 	DebugTools::SettingsClass::installslocation = doc.child("Settings").attribute("InstallationsPath").value();
-	DebugTools::SettingsClass::downloadspeedlimit = (int)doc.child("Settings").attribute("DownloadSpeedLimit").value();
-	DebugTools::SettingsClass::UIdebugenabled = (int)doc.child("Settings").attribute("UiDebugEnabled").value();
+	DebugTools::SettingsClass::downloadspeedlimit = atoi(doc.child("Settings").attribute("DownloadSpeedLimit").value());
+
+	//Use atoi for conversion to int
+
+#if _DEBUG
+	std::cout << "DSL source: " << doc.child("Settings").attribute("DownloadSpeedLimit").value();
+	std::cout << "DSL atoi pointer conversion: " << atoi(doc.child("Settings").attribute("DownloadSpeedLimit").value());
+#endif // _DEBUG
+
+	DebugTools::SettingsClass::UIdebugenabled = atoi(doc.child("Settings").attribute("UiDebugEnabled").value());
 
 	DebugTools::Console::_log("Loaded settings successfully");
 
 }
 
-void CreateNewFile() 
+void DebugTools::SettingsClass::CreateNewFile()
 {	
 	//Check if file exisits and if it does not create it
 	if (!fs::exists("settings.xml")) {

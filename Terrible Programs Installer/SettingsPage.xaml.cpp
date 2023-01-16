@@ -5,7 +5,10 @@
 #include "SettingsPage.xaml.h"
 #include <windows.h>
 #include "DConsole.hpp"
-#include <SettingsClass.h>
+#include <SettingsClass.hpp>
+#include <AtlBase.h>
+#include <atlconv.h>
+#include <string>
 #if __has_include("SettingsPage.g.cpp")
 #include "SettingsPage.g.cpp"
 #endif
@@ -56,8 +59,61 @@ void winrt::Terrible_Programs_Installer::implementation::SettingsPage::Check_Con
     
 }
 
+//the saving system along with value change voids
 
+//value change and then instant save
 void winrt::Terrible_Programs_Installer::implementation::SettingsPage::Slider_ValueChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs const& e)
 {
     DebugTools::SettingsClass::UIdebugenabled = (int)e.NewValue();
+    save();
 }
+
+void winrt::Terrible_Programs_Installer::implementation::SettingsPage::DownloadSpeedSlider_ValueChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs const& e)
+{
+    DebugTools::SettingsClass::downloadspeedlimit = (int)e.NewValue();
+    save();
+}
+
+void winrt::Terrible_Programs_Installer::implementation::SettingsPage::save()
+{
+    DebugTools::SettingsClass::SaveSettings();
+}
+
+
+void winrt::Terrible_Programs_Installer::implementation::SettingsPage::Page_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+{
+    //load settings into program
+    DebugTools::SettingsClass::LoadSettings();
+    //Change Modifyers values
+
+    //Conversion crap
+    /*
+    wstring w = L"some wstring";
+    CW2A cw2a(w.c_str());
+    string s = cw2a;
+    */
+
+    //Install location (conversions, ewwwwwww)
+    CA2W ca2w(DebugTools::SettingsClass::installslocation.c_str());
+    std::wstring w = ca2w;
+    InstallsLocsBox().Text(w);
+
+    //DownloadSpeedShit
+    DownloadSpeedSlider().Value((int)DebugTools::SettingsClass::downloadspeedlimit);
+
+#if _DEBUG
+    std::cout << "TypeCast: " << (int)DebugTools::SettingsClass::downloadspeedlimit << "Real: " << DebugTools::SettingsClass::downloadspeedlimit;
+#endif // _DEBUG
+
+    //UiDebug
+    UiDebugSlider().Value((int)DebugTools::SettingsClass::UIdebugenabled);
+}
+
+
+void winrt::Terrible_Programs_Installer::implementation::SettingsPage::Page_Unloaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+{
+    DebugTools::SettingsClass::SaveSettings();
+}
+
+
+

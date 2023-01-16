@@ -20,6 +20,7 @@ namespace DebugTools {
 	private:
 		static bool toggleconsole;
 		static void ToggleConsole(bool input);
+		static void CreateNewFile();
 	};
 }
 

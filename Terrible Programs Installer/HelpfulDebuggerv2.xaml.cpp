@@ -9,7 +9,7 @@
 #include "HelpfulDebuggerv2.g.cpp"
 #endif
 #include <DConsole.hpp>
-#include "SettingsClass.h"
+#include "SettingsClass.hpp"
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
