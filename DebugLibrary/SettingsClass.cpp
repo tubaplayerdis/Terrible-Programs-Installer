@@ -70,7 +70,7 @@ void DebugTools::SettingsClass::LoadSettings()
 	DebugTools::SettingsClass::downloadspeedlimit = (int)doc.child("Settings").attribute("DownloadSpeedLimit").value();
 	DebugTools::SettingsClass::UIdebugenabled = (int)doc.child("Settings").attribute("UiDebugEnabled").value();
 
-	DebugTools::Console::_log("Loaded settings successfully")
+	DebugTools::Console::_log("Loaded settings successfully");
 
 }
 
