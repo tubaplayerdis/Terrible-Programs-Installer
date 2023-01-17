@@ -4,6 +4,6 @@ To do:
 3 program installer
 
 Ideas:
-json save file for keeping info on installed programs
+xml save file for keeping info on installed programs
 installation checker
 beta program(latest versions)

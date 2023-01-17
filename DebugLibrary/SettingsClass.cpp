@@ -39,8 +39,10 @@ void DebugTools::SettingsClass::SetDefualts()
 
 void DebugTools::SettingsClass::LoadSettings()
 {
+	DebugTools::Console::_log("Loading settings imto memory");
 	if (!fs::exists("settings.xml")) {
-		DebugTools::SettingsClass::CreateNewFile();
+		DebugTools::Console::_log("Settings file not found, creating file", __FUNCTION__);
+		DebugTools::SettingsClass::CreateNewFile();		
 	}
 	//Document memory	
 	pugi::xml_document doc;
@@ -50,20 +52,24 @@ void DebugTools::SettingsClass::LoadSettings()
 	DebugTools::Console::_log(result.description());
 	//Checking if the settings exist
 	if (!doc.child("Settings")) {
+		DebugTools::Console::_log("Settings file corrupted, creating new file", __FUNCTION__);
 		DebugTools::SettingsClass::CreateNewFile();
-		doc.load_file("settings.xml");
+		doc.load_file("settings.xml");		
 	} 
 	if (!doc.child("Settings").attribute("InstallationsPath")) {
+		DebugTools::Console::_log("Settings file corrupted, creating new file", __FUNCTION__);
 		DebugTools::SettingsClass::CreateNewFile();
-		doc.load_file("settings.xml");
+		doc.load_file("settings.xml");		
 	}
 	if (!doc.child("Settings").attribute("DownloadSpeedLimit")) {
+		DebugTools::Console::_log("Settings file corrupted, creating new file", __FUNCTION__);
 		DebugTools::SettingsClass::CreateNewFile();
-		doc.load_file("settings.xml");
+		doc.load_file("settings.xml");		
 	}
 	if (!doc.child("Settings").attribute("UiDebugEnabled")) {
+		DebugTools::Console::_log("Settings file corrupted, creating new file", __FUNCTION__);
 		DebugTools::SettingsClass::CreateNewFile();
-		doc.load_file("settings.xml");
+		doc.load_file("settings.xml");		
 	}
 
 	DebugTools::SettingsClass::installslocation = doc.child("Settings").attribute("InstallationsPath").value();
@@ -72,8 +78,8 @@ void DebugTools::SettingsClass::LoadSettings()
 	//Use atoi for conversion to int
 
 #if _DEBUG
-	std::cout << "DSL source: " << doc.child("Settings").attribute("DownloadSpeedLimit").value();
-	std::cout << "DSL atoi pointer conversion: " << atoi(doc.child("Settings").attribute("DownloadSpeedLimit").value());
+	std::cout << "DSL source: " << doc.child("Settings").attribute("DownloadSpeedLimit").value() << "\n";
+	std::cout << "DSL atoi pointer conversion: " << atoi(doc.child("Settings").attribute("DownloadSpeedLimit").value()) << "\n";
 #endif // _DEBUG
 
 	DebugTools::SettingsClass::UIdebugenabled = atoi(doc.child("Settings").attribute("UiDebugEnabled").value());
@@ -86,9 +92,13 @@ void DebugTools::SettingsClass::CreateNewFile()
 {	
 	//Check if file exisits and if it does not create it
 	if (!fs::exists("settings.xml")) {
+		DebugTools::Console::_log("Settings file not found, creating file", __FUNCTION__);
 		std::ofstream SettingsFile("settings.xml");
 		SettingsFile.close();
 	}
+
+	
+
 	// Generate new XML document within memory
 	pugi::xml_document doc;
 
@@ -118,6 +128,7 @@ void DebugTools::SettingsClass::CreateNewFile()
 void DebugTools::SettingsClass::SaveSettings()
 {	
 	if (!fs::exists("settings.xml")) {
+		DebugTools::Console::_log("Settings file not found, creating file", __FUNCTION__);
 		std::ofstream SettingsFile("Settings.xml");
 		SettingsFile.close();
 	}

@@ -76,6 +76,7 @@ void winrt::Terrible_Programs_Installer::implementation::SettingsPage::DownloadS
 
 void winrt::Terrible_Programs_Installer::implementation::SettingsPage::save()
 {
+    DebugTools::Console::_log("Saving settings from settings page", __FUNCTION__);
     DebugTools::SettingsClass::SaveSettings();
 }
 
@@ -102,7 +103,7 @@ void winrt::Terrible_Programs_Installer::implementation::SettingsPage::Page_Load
     DownloadSpeedSlider().Value((int)DebugTools::SettingsClass::downloadspeedlimit);
 
 #if _DEBUG
-    std::cout << "TypeCast: " << (int)DebugTools::SettingsClass::downloadspeedlimit << "Real: " << DebugTools::SettingsClass::downloadspeedlimit;
+    std::cout << "TypeCast: " << (int)DebugTools::SettingsClass::downloadspeedlimit << "Real: " << DebugTools::SettingsClass::downloadspeedlimit << "\n";
 #endif // _DEBUG
 
     //UiDebug

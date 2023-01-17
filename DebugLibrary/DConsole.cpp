@@ -30,9 +30,19 @@ void DebugTools::Console::_log(std::wstring input)
     std::wcout << input + L"\n";
 }
 
+void DebugTools::Console::_log(std::wstring input, std::string func)
+{
+    std::wcout << func.c_str() << L"(): " << input + L"\n";
+}
+
 void DebugTools::Console::_log(std::string input)
 {
     std::cout << input + "\n";
+}
+
+void DebugTools::Console::_log(std::string input, std::string func)
+{
+    std::cout << func << "(): " << input + "\n";
 }
 
 void DebugTools::Console::_clear()
