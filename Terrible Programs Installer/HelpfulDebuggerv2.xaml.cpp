@@ -49,7 +49,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
             break;
         case 2:
             ChangeDebugElementColors(systemcolorbrush);
-            DebugTools::Console::_log(L"Disabled UI Debug: System Accent Color");
+            DebugTools::Console::_log(L"Enabled UI Debug: System Accent Color");
             break;
        default:
             ChangeDebugElementColors(transbrush);
