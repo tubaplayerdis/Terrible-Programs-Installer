@@ -4,6 +4,8 @@
 #pragma once
 
 #include "HelpfulDebuggerv2.g.h"
+#include <string>
+#include <winnt.h>
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 
@@ -13,6 +15,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
     {
         HelpfulDebuggerv2();
 
+        
         void EnableUIDebug(int toggle);
         int32_t MyProperty();
         void MyProperty(int32_t value);
@@ -20,6 +23,11 @@ namespace winrt::Terrible_Programs_Installer::implementation
     private:
         void ChangeDebugElementColors(Microsoft::UI::Xaml::Media::SolidColorBrush color);
     };
+
+    
+
+    
+    
 }
 
 namespace winrt::Terrible_Programs_Installer::factory_implementation

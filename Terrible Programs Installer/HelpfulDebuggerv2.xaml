@@ -36,6 +36,45 @@
                     <TextBlock x:Name="App_name" Style="{StaticResource AppTitleCus}" Text="Helpful Debugger V2" HorizontalAlignment="Center"></TextBlock>
                     <TextBlock x:Name="App_Descprev" Style="{StaticResource BodyStrongTextBlockStyle}" Text="There is no description aviable" HorizontalAlignment="Center"></TextBlock>
                 </StackPanel>
+
+                <Button HorizontalAlignment="Center" Style="{StaticResource AccentButtonStyle}" >Install</Button>
+                
+            </StackPanel>
+        </Border>
+
+        <Border BorderBrush="Aqua" CornerRadius="2,2,2,2" BorderThickness="4,4,4,4" x:Name="ScreenShotsanddescription" Grid.Column="1">
+            <StackPanel Background="Transparent" Spacing="20" CornerRadius="10" VerticalAlignment="Top">
+                <StackPanel Spacing="10">
+                    <TextBlock x:Name="App_Screns" Style="{StaticResource AppTitleCus}" Text="Screenshots:" HorizontalAlignment="Center"></TextBlock>
+                    
+                    <ListView>
+                           
+                        <!--
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local:ScreenShotData" x:Name="PhotosDataTemplate">
+                                <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="250"  Height="150" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder1"
+                               CacheMode="BitmapCache" CornerRadius="10,10,10,10">
+                                    
+                                    <Border.Background>
+                                        <ImageBrush x:Name="scren1" ImageSource="{x:Bind my}"  Stretch="Fill"></ImageBrush>
+                                    </Border.Background>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        -->
+
+                        <ListViewItem>
+                            <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="250"  Height="150" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder1"
+                               CacheMode="BitmapCache" CornerRadius="10,10,10,10">
+                                <!-- left-top and bottom-right round corners. -->
+                                <Border.Background>
+                                    <ImageBrush x:Name="scren1" ImageSource="No_Image.jpg"  Stretch="Fill"></ImageBrush>
+                                </Border.Background>
+                            </Border>
+                        </ListViewItem>
+                    </ListView>
+                    <TextBlock x:Name="App_Desc" Style="{StaticResource AppTitleCus}" Text="Description:" HorizontalAlignment="Center"></TextBlock>
+                </StackPanel>
             </StackPanel>
         </Border>
         <!--App Gen Desc End-->

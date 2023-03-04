@@ -118,3 +118,28 @@ void winrt::Terrible_Programs_Installer::implementation::SettingsPage::Page_Unlo
 
 
 
+void winrt::Terrible_Programs_Installer::implementation::SettingsPage::AppLBox_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+{
+    AppLBox().Text(GetAppConfig());
+}
+
+std::wstring winrt::Terrible_Programs_Installer::implementation::SettingsPage::GetAppConfig()
+{
+#if defined(_DEBUG)
+#if defined(WIN32)
+    return L"Debug - Win32";
+#else
+#error "Unknown configuration"
+#endif
+#elif defined(NDEBUG)
+#if defined(WIN32)
+    return L"Release - Win32";
+#else
+#error "Unknown configuration"
+#endif
+#else
+#error "Unknown configuration"
+#endif
+}
+
+

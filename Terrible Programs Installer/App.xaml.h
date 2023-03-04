@@ -4,6 +4,7 @@
 #pragma once
 
 #include "App.xaml.g.h"
+#include "ScreenShotData.h"
 
 namespace winrt::Terrible_Programs_Installer::implementation
 {

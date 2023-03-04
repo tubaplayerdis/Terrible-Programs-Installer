@@ -114,6 +114,13 @@
                             ValueChanged="Slider_ValueChanged"
                             >
                         </Slider>
+                        <TextBox Header="Apllication Configuration"
+                                 x:Name="AppLBox"
+                                  Padding="3"
+                                  Margin="10 5"
+                                 IsReadOnly="True"
+                                 Loaded="AppLBox_Loaded"
+                                 ></TextBox>
                     </StackPanel>
                     
 
