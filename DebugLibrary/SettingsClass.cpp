@@ -39,7 +39,7 @@ void DebugTools::SettingsClass::SetDefualts()
 
 void DebugTools::SettingsClass::LoadSettings()
 {
-	DebugTools::Console::_log("Loading settings imto memory");
+	DebugTools::Console::_log("Loading settings into memory");
 	if (!fs::exists("settings.xml")) {
 		DebugTools::Console::_log("Settings file not found, creating file", __FUNCTION__);
 		DebugTools::SettingsClass::CreateNewFile();		

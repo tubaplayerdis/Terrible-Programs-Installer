@@ -5,7 +5,8 @@
     x:Class="Terrible_Programs_Installer.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Terrible_Programs_Installer">
+    xmlns:local="using:Terrible_Programs_Installer"
+    >
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

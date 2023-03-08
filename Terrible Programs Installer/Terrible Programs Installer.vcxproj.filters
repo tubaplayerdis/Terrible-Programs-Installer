@@ -26,8 +26,8 @@
     <ClCompile Include="..\DebugLibrary\SettingsClass.cpp">
       <Filter>outsiders</Filter>
     </ClCompile>
-    <ClCompile Include="ScreenShotData.cpp">
-      <Filter>DataTemplate</Filter>
+    <ClCompile Include="..\DebugLibrary\Downloader.cpp">
+      <Filter>outsiders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +64,9 @@
     <Image Include="..\..\..\..\Downloads\No_Image.jpg">
       <Filter>images</Filter>
     </Image>
+    <Image Include="..\..\..\..\Downloads\StoreLogo.scale-400.png">
+      <Filter>images</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Assets">
@@ -87,7 +90,7 @@
     <Filter Include="Settings">
       <UniqueIdentifier>{c3171748-6559-4550-8305-0d2511179154}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DataTemplate">
+    <Filter Include="Download">
       <UniqueIdentifier>{e1d238b0-17e5-4e86-a857-175cdfeee423}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

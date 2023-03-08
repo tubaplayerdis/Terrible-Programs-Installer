@@ -1,9 +1,27 @@
 To do:
-1 navigation view layout
-2 setup navigation
-3 program installer
+1 navigation view layout - done
+2 setup navigation - done
+3 ideas
 
 Ideas:
-xml save file for keeping info on installed programs
-installation checker
-beta program(latest versions)
+
+cache system where verification of images by name(could use existing list), so no async loading 
+ability to clear cache
+logging system where if application errors, write it console cache to log, maybe use another app?
+
+Notes:
+
+for async stuff -> (meathod)get: Overloaded. Returns the result this task produced. If the task is not in a terminal state, a call to get will wait for the task to finish. This method does not return a value when called on a task with a result_type of void.
+
+Systems:
+
+how async doawnloading is done
+
+0 Page loaded with no_image on by default
+
+1 after page load async work
+1a asset loc goes into async
+1b assetloc is used to define image sotre location and list is generated of file created
+1c list is returned and is used to determine which images are shown
+
+2 hope to god it works

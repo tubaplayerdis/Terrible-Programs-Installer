@@ -7,6 +7,7 @@
 #include <winrt/Windows.UI.Xaml.Interop.h>
 #include "DConsole.hpp"
 #include "SettingsClass.hpp"
+#include "Downloader.hpp"
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
 #endif
@@ -76,7 +77,9 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
         //load in settings
         DebugTools::SettingsClass::LoadSettings();
-        
+
+        //Init In asset Downloader
+        DebugTools::Downloader::_Initilize();
     }
 
     
@@ -101,4 +104,10 @@ void winrt::Terrible_Programs_Installer::implementation::MainWindow::The_Navigat
        The_Frame().Navigate(xaml_typename<Terrible_Programs_Installer::SettingsPage>());
        DebugTools::Console::_log(L"Navigated to:" + the_tag);
    }
+}
+
+
+void winrt::Terrible_Programs_Installer::implementation::MainWindow::Window_Closed(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::WindowEventArgs const& args)
+{
+    DebugTools::Downloader::DeleteAssets(false);
 }

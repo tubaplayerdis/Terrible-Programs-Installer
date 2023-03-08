@@ -128,10 +128,6 @@
     <ClInclude Include="MainWindow.xaml.h">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="ScreenShotData.h">
-      <DependentUpon>ScreenShotData.cpp</DependentUpon>
-      <SubType>Code</SubType>
-    </ClInclude>
     <ClInclude Include="SettingsPage.xaml.h">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -150,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\DebugLibrary\DConsole.cpp" />
+    <ClCompile Include="..\DebugLibrary\Downloader.cpp" />
     <ClCompile Include="..\DebugLibrary\SettingsClass.cpp" />
     <ClCompile Include="HelpfulDebuggerv2.xaml.cpp">
       <DependentUpon>HelpfulDebuggerv2.xaml</DependentUpon>
@@ -165,9 +162,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-    <ClCompile Include="ScreenShotData.cpp">
-      <SubType>Code</SubType>
-    </ClCompile>
     <ClCompile Include="SettingsPage.xaml.cpp">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -186,10 +180,6 @@
       <SubType>Code</SubType>
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Midl>
-    <Midl Include="ScreenShotData.idl">
-      <DependentUpon>ScreenShotData.cpp</DependentUpon>
-      <SubType>Code</SubType>
-    </Midl>
     <Midl Include="SettingsPage.idl">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -203,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Downloads\No_Image.jpg" />
+    <Image Include="..\..\..\..\Downloads\StoreLogo.scale-400.png" />
     <Image Include="..\..\..\..\Downloads\TPI.ico" />
     <Image Include="Assets\LockScreenLogo.scale-200.png" />
     <Image Include="Assets\SplashScreen.scale-200.png" />

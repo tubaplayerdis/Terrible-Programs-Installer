@@ -27,6 +27,9 @@
     <ClInclude Include="SettingsClass.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Downloader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugLibrary.cpp">
@@ -39,6 +42,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SettingsClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Downloader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

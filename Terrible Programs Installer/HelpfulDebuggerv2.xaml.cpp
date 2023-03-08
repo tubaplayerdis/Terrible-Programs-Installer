@@ -3,33 +3,82 @@
 
 #include "pch.h"
 #include "HelpfulDebuggerv2.xaml.h"
+#include <winrt/Microsoft.UI.Xaml.Media.Imaging.h> //Needed for bitmap image please dont remove, ill put it in pch
 #include <winrt/Windows.UI.h>
 #include <winrt/Windows.UI.ViewManagement.h>
+#include <winrt/Windows.Foundation.h>//not needed since it is in the pch
 #if __has_include("HelpfulDebuggerv2.g.cpp")
 #include "HelpfulDebuggerv2.g.cpp"
 #endif
 #include <DConsole.hpp>
 #include "SettingsClass.hpp"
+#include "Downloader.hpp"
+#include <ppltasks.h>
+#include <windows.h>
+#include <winuser.h>
+#include <SensAPI.h>
+#pragma comment(lib, "Sensapi.lib")
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
+
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace winrt::Terrible_Programs_Installer::implementation
 {
+    
     HelpfulDebuggerv2::HelpfulDebuggerv2()
     {
-        InitializeComponent();
-        if (DebugTools::SettingsClass::UIdebugenabled == 0) {
+        //Download Assets
+        // go to test func below
 
+        
+        
+        
+        
+        
+
+        InitializeComponent();
+        
+        
+    }
+
+    concurrency::task<bool> HelpfulDebuggerv2::TestFunc(std::wstring const& assetloc)
+    {
+        return concurrency::create_task([assetloc]
+            {
+                DebugTools::Downloader downloader;
+                std::list<std::wstring> list = downloader.A_GetHD2Assets(assetloc);
+                
+            if (std::find(std::begin(list), std::end(list), L"HD2100Scale.png") != std::end(list)) {
+            return true;
+            }
+            
+                
+        
+        return false;
+            });
+    }
+
+    winrt::hstring HelpfulDebuggerv2::ScreenShot1()
+    {
+        if (HelpfulDebuggerv2::CheckInternet() == -1) {
+            return L"No_Image.jpg";
         }
         else
         {
-            HelpfulDebuggerv2::EnableUIDebug(DebugTools::SettingsClass::UIdebugenabled);
+            return L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/SplashScreen.scale-100.png";
         }
     }
+
+    void HelpfulDebuggerv2::ScreenShot1(winrt::hstring)
+    {
+    }
+
+    
 
     void HelpfulDebuggerv2::EnableUIDebug(int toggle)
     {
@@ -81,6 +130,34 @@ namespace winrt::Terrible_Programs_Installer::implementation
     {
         //myButton().Content(box_value(L"Clicked"));
     }
+
+    int HelpfulDebuggerv2::CheckInternet()
+    {
+        DWORD dwSens;
+        if (IsNetworkAlive(&dwSens) == FALSE)
+        {
+            DebugTools::Console::_log("No network connection", __FUNCTION__);
+            return -1;
+        }
+        else
+        {
+            switch (dwSens)
+            {
+            case NETWORK_ALIVE_LAN:
+                DebugTools::Console::_log("LAN connection available", __FUNCTION__);
+                return 0;
+                break;
+            case NETWORK_ALIVE_WAN:
+                DebugTools::Console::_log("WAN connection available", __FUNCTION__);
+                return 1;
+                break;
+            default:
+                DebugTools::Console::_log("Unknown connection available", __FUNCTION__);
+                return 2;
+                break;
+            }
+        }
+    }
    
     
     
@@ -88,4 +165,43 @@ namespace winrt::Terrible_Programs_Installer::implementation
     
     
 
+}
+
+
+void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+{
+    auto firstTitleOp{ TestFunc(DebugTools::Downloader::AssetLocation) };
+
+    DebugTools::Console::_log("Holy shit guys 9000 ops on async operations, fuck microsoft frfr", __FUNCTION__);
+
+
+
+
+
+    
+
+    DebugTools::Console::_log("It inited", __FUNCTION__);
+
+    try {
+        if (firstTitleOp.get()) {
+            DebugTools::Console::_log("Moment of truth...", __FUNCTION__);
+            Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
+            Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + L"\\HD2100Scale.png" };
+            bitmapImage.UriSource(uri);
+            scren1().ImageSource(bitmapImage);
+            //Microsoft::UI::Xaml::Media::Imaging::BitmapImage{ Windows::Foundation::Uri{ L"WAssets/HD2100Scale.png" } }
+            DebugTools::Console::_log("No way it worked somehow", __FUNCTION__);
+        }
+        else
+        {
+            DebugTools::Console::_log("Image source and async can suck my ass", __FUNCTION__);
+        }
+    }
+    catch (std::exception e) {
+        MessageBoxA(NULL, e.what(), "Ive died be happy", MB_OK);
+    }
+
+
+
+    DebugTools::Console::_log("No more ft jerks jack", __FUNCTION__);
 }
