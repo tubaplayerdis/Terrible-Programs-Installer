@@ -164,6 +164,9 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _ass
 		}
 	}
 
+
+	//NOTE - This code below needs to be memory optimized by changing the vriables instead of making new ones and then deleting them, its a memory leak waiting to happen
+
 	//Image0
 	std::wstring dwnld_URL0 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png";
 	std::wstring savepath0 = _assetloc + L"\\HD2A.png";

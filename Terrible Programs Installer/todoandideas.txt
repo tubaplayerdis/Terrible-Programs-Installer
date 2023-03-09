@@ -6,9 +6,9 @@ To do:
 Ideas:
 
 
-cache system where verification of images by name(could use existing list), so no async loading 
-ability to clear cache
-logging system where if application errors, write it console cache to log, maybe use another app?
+cache system where verification of images by name, so no async loading - done
+ability to clear cache - done
+logging system where if application errors, write it console cache to log, maybe use another app? - i "have" to do this
 
 Notes:
 
