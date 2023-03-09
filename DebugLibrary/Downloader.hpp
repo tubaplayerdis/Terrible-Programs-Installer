@@ -6,12 +6,19 @@ namespace DebugTools {
 	class Downloader
 	{
 	public:
-		static void _Initilize();
+		static void _Initilize();		
 		static std::list<std::wstring> Items;
 		static std::wstring AssetLocation;
+		static std::wstring RunningDirectory;
+		static bool _VerifyHD2Cache();
+
+		//DO NOT USE(does not work) - USE ASYNC
 		static void GetHD2Assets();
+		//DO NOT USE(does not work) - USE ASYNC
 		static void GetHD1Assets();
+		//DO NOT USE(does not work) - USE ASYNC
 		static void GetSCTGAssets();
+		//DO NOT USE(does not work) - USE ASYNC
 		static void GetPasswordCreatorAssets();
 
 		//Asset Getting Async

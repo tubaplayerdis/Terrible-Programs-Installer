@@ -12,7 +12,15 @@
 //Define objects as to not get a linker error
 std::list<std::wstring> DebugTools::Downloader::Items;
 std::wstring DebugTools::Downloader::AssetLocation;
+std::wstring DebugTools::Downloader::RunningDirectory;
 
+/*
+Image server edit links
+HD2A:  https://imgbox.com/upload/edit/784485321/pUsyeQesPEViGX6G
+
+//Dont use its low quality were using github just rate limits so gotta find others
+
+*/
 
 void DebugTools::Downloader::_Initilize()
 {
@@ -32,11 +40,13 @@ void DebugTools::Downloader::_Initilize()
 	std::wstring Fixed = RunningDir + L"\\WAssets";
 	//std::wstring ws(Fixed.begin(), Fixed.end());
 	AssetLocation = Fixed;
+	RunningDirectory = RunningDir;
 	DebugTools::Console::_log(L"set assetloc var");
 	DebugTools::Console::_log(L"Running Dir: " + RunningDir);
 	DebugTools::Console::_log(L"Asset Loc: " + AssetLocation);
 }
 
+//Do not use this please it does not work ok?
 void DebugTools::Downloader::GetHD2Assets()
 {
 	DebugTools::Console::_log(L"Checking assets directory location existance", __FUNCTION__);
@@ -49,10 +59,10 @@ void DebugTools::Downloader::GetHD2Assets()
 			DebugTools::Console::_log("Direcotory failed creation", __FUNCTION__);
 		}
 	}
-	std::wstring dwnld_URL = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/SplashScreen.scale-100.png";
-	std::wstring savepath = AssetLocation + L"\\HD2100Scale.png";
+	std::wstring dwnld_URL = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png";
+	std::wstring savepath = AssetLocation + L"\\HD2A.png";
 	if (URLDownloadToFileW(NULL, dwnld_URL.c_str(), savepath.c_str(), 0, NULL) == S_OK) {
-		Items.assign(1, L"HD2100Scale.png");
+		Items.assign(1, L"HD2A.png");
 	}
 	else
 	{
@@ -60,6 +70,31 @@ void DebugTools::Downloader::GetHD2Assets()
 	}
 	
 	DebugTools::Downloader::PrintList(Items);
+}
+
+bool DebugTools::Downloader::_VerifyHD2Cache()
+{
+	/*
+	List of Images to veryify
+
+	HD2A.png
+
+	
+	*/
+	
+	std::wstring AssetCheck = AssetLocation + L"\\";
+
+	//self explanatory
+	if(!std::filesystem::exists(AssetLocation)) return false;
+
+	//Image veryify
+
+	if(!std::filesystem::exists(AssetCheck + L"HD2A.png")) return false;
+	if(!std::filesystem::exists(AssetCheck + L"HD2B.png")) return false;
+
+	//only happens if all checks are passed
+	return true;
+
 }
 
 void DebugTools::Downloader::GetHD1Assets()
@@ -77,11 +112,13 @@ void DebugTools::Downloader::GetPasswordCreatorAssets()
 void DebugTools::Downloader::DeleteAssets(bool LogEvent)
 {
 	if (!std::filesystem::exists(AssetLocation)) {
-		if (LogEvent) { DebugTools::Console::_log(L"Directory does not exist, no need to delete", __FUNCTION__); }
+		if (LogEvent) { DebugTools::Console::_log(L"Directory does not exist, no need to delete assets", __FUNCTION__); }
 		return;
 	}
 	for (const auto& entry : std::filesystem::directory_iterator(AssetLocation))
 		std::filesystem::remove_all(entry.path());
+
+	if (LogEvent) { DebugTools::Console::_log(L"Deleted Assets", __FUNCTION__); }
 }
 
 void DebugTools::Downloader::PrintList(std::list<std::wstring> const& list)
@@ -126,15 +163,32 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _ass
 			DebugTools::Console::_log("Direcotory failed creation", "HD2 Async func");
 		}
 	}
-	std::wstring dwnld_URL = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/Nickocaodo.png";
-	std::wstring savepath = _assetloc + L"\\HD2100Scale.png";
-	if (URLDownloadToFileW(NULL, dwnld_URL.c_str(), savepath.c_str(), 0, NULL) == S_OK) {
-		_list.assign(1, L"HD2100Scale.png");
+
+	//Image0
+	std::wstring dwnld_URL0 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png";
+	std::wstring savepath0 = _assetloc + L"\\HD2A.png";
+	if (URLDownloadToFileW(NULL, dwnld_URL0.c_str(), savepath0.c_str(), 0, NULL) == S_OK) {
+		_list.push_back(L"HD2A.png");
 	}
 	else
 	{
-		DebugTools::Console::_log("Failed to download item", "HD2 Async func");
+		_list.push_back(L"FAIL");
+		DebugTools::Console::_log("Failed to download item A", "HD2 Async func");
 	}
+
+	//Image1
+	std::wstring dwnld_URL1 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/Nickocaodo.png";
+	std::wstring savepath1 = _assetloc + L"\\HD2B.png";
+	if (URLDownloadToFileW(NULL, dwnld_URL1.c_str(), savepath1.c_str(), 0, NULL) == S_OK) {
+		_list.push_back(L"HD2B.png");
+	}
+	else
+	{
+		_list.push_back(L"FAIL");
+		DebugTools::Console::_log("Failed to download item B", "HD2 Async func");
+	}
+
+
 
 	return _list;
 }

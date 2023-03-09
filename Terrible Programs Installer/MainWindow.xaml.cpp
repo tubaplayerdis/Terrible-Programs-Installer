@@ -109,5 +109,5 @@ void winrt::Terrible_Programs_Installer::implementation::MainWindow::The_Navigat
 
 void winrt::Terrible_Programs_Installer::implementation::MainWindow::Window_Closed(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::WindowEventArgs const& args)
 {
-    DebugTools::Downloader::DeleteAssets(false);
+    //DebugTools::Downloader::DeleteAssets(false);
 }

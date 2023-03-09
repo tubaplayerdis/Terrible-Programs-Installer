@@ -65,14 +65,25 @@
                         -->
 
                         <ListViewItem>
-                            <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="250"  Height="150" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder1"
+                            <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder1"
                                CacheMode="BitmapCache" CornerRadius="10,10,10,10">
                                 <!-- left-top and bottom-right round corners. -->
                                 <Border.Background>
-                                    <ImageBrush x:Name="scren1" ImageSource="No_Image.jpg"  Stretch="Fill"></ImageBrush>
+                                    <ImageBrush x:Name="scren1" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
                                 </Border.Background>
                             </Border>
                         </ListViewItem>
+
+                        <ListViewItem>
+                            <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder2"
+                               CacheMode="BitmapCache" CornerRadius="10,10,10,10">
+                                <!-- left-top and bottom-right round corners. -->
+                                <Border.Background>
+                                    <ImageBrush x:Name="scren2" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
+                                </Border.Background>
+                            </Border>
+                        </ListViewItem>
+
                     </ListView>
                     <TextBlock x:Name="App_Desc" Style="{StaticResource AppTitleCus}" Text="Description:" HorizontalAlignment="Center"></TextBlock>
                 </StackPanel>

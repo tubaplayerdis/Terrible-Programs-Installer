@@ -93,6 +93,17 @@
                             <Button x:Name="Check_Connection_Button" Click="Check_Connection_Button_Click">Check Server Connection Status</Button>
                             <TextBox x:Name="Server_connect_stat_box" IsReadOnly="True"></TextBox>
                         </StackPanel>
+                        <Button
+                            ToolTipService.ToolTip="Use if images or text are not loading correctly"
+                            Padding="3"
+                            Margin="10 5"
+                            x:Name="DeleteChache"
+                            Click="DeleteChache_Click"
+                            >
+                            Delete Chache
+                        </Button>
+                        
+                        <!--Advanced Settings-->
                         <TextBlock Text="Advanced"
                                    Padding="3"
                                    HorizontalAlignment="Stretch"

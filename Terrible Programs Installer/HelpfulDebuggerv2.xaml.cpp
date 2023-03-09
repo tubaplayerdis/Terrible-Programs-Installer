@@ -29,39 +29,50 @@ using namespace Microsoft::UI::Xaml;
 
 namespace winrt::Terrible_Programs_Installer::implementation
 {
-    
+
     HelpfulDebuggerv2::HelpfulDebuggerv2()
     {
         //Download Assets
         // go to test func below
 
-        
-        
-        
-        
-        
+
+
+
+
+
 
         InitializeComponent();
-        
-        
+
+
     }
 
-    concurrency::task<bool> HelpfulDebuggerv2::TestFunc(std::wstring const& assetloc)
+    concurrency::task<std::list<std::wstring>> HelpfulDebuggerv2::TestFunc(std::wstring const& assetloc)
     {
         return concurrency::create_task([assetloc]
             {
-                DebugTools::Downloader downloader;
-                std::list<std::wstring> list = downloader.A_GetHD2Assets(assetloc);
-                
-            if (std::find(std::begin(list), std::end(list), L"HD2100Scale.png") != std::end(list)) {
-            return true;
-            }
-            
-                
+                concurrency::task_completion_event<std::list<std::wstring>> stuff;
+        DebugTools::Downloader downloader;
+        std::list<std::wstring> list = downloader.A_GetHD2Assets(assetloc);
+        std::list<std::wstring> returnlist;
+
+
+        for (std::wstring item : list) {
+            returnlist.assign(1, item);
+        }
         
-        return false;
-            });
+        /*
+        Windows::System::DispatcherQueue disp = Windows::System::DispatcherQueue::GetForCurrentThread();
+        bool blah = disp.TryEnqueue([] {
+            
+            
+
+        });
+        */
+        return returnlist;
+
+        });
     }
+
 
     winrt::hstring HelpfulDebuggerv2::ScreenShot1()
     {
@@ -170,6 +181,28 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
 void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
 {
+    //Cache checks
+    if (DebugTools::Downloader::_VerifyHD2Cache()) {
+        //Image source 1
+        Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
+        std::wstring picstring = L"\\HD2A.png";
+        Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
+        bitmapImage.UriSource(uri);
+        scren1().ImageSource(bitmapImage);
+        //image source 2
+
+        //Image source 3
+
+        //Image source 4
+
+        //Image source 5
+
+        //Image source 6
+        return;
+    }
+
+
+
     auto firstTitleOp{ TestFunc(DebugTools::Downloader::AssetLocation) };
 
     DebugTools::Console::_log("Holy shit guys 9000 ops on async operations, fuck microsoft frfr", __FUNCTION__);
@@ -179,23 +212,53 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
 
 
     
-
+    
     DebugTools::Console::_log("It inited", __FUNCTION__);
 
     try {
-        if (firstTitleOp.get()) {
-            DebugTools::Console::_log("Moment of truth...", __FUNCTION__);
-            Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
-            Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + L"\\HD2100Scale.png" };
-            bitmapImage.UriSource(uri);
-            scren1().ImageSource(bitmapImage);
-            //Microsoft::UI::Xaml::Media::Imaging::BitmapImage{ Windows::Foundation::Uri{ L"WAssets/HD2100Scale.png" } }
-            DebugTools::Console::_log("No way it worked somehow", __FUNCTION__);
-        }
-        else
+        std::list<std::wstring> stg = firstTitleOp.get();
+        int x = 0;
+        for (std::wstring item : stg)
         {
-            DebugTools::Console::_log("Image source and async can suck my ass", __FUNCTION__);
-        }
+            
+            //DebugTools::Console::_log("Moment of truth...", __FUNCTION__);
+            Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
+            std::wstring picstring = L"\\" + item;
+            Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
+            Windows::Foundation::Uri urf{ DebugTools::Downloader::RunningDirectory + L"\\No_Image.jpg" };
+            if (item == L"FAIL")
+            {
+                bitmapImage.UriSource(urf);
+            }
+            else
+            {
+                bitmapImage.UriSource(uri);
+            }            
+            DebugTools::Console::_log(L"Current Item: " + item);
+            switch (x)
+            {
+            case 0:
+                scren1().ImageSource(bitmapImage);
+                break;
+
+            case 1:
+                break;
+                scren2().ImageSource(bitmapImage);
+                //scren2
+                
+                //Implement other numbers to other images
+            default:
+                break;
+            }
+
+
+
+            
+            //Microsoft::UI::Xaml::Media::Imaging::BitmapImage{ Windows::Foundation::Uri{ L"WAssets/HD2100Scale.png" } }
+            DebugTools::Console::_log("Loop: " + std::to_string(x) + "Done", __FUNCTION__);
+            x++;
+        }        
+            DebugTools::Console::_log("I said, SUCK MY BALLS MR GARRISON", __FUNCTION__);        
     }
     catch (std::exception e) {
         MessageBoxA(NULL, e.what(), "Ive died be happy", MB_OK);
@@ -204,4 +267,5 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
 
 
     DebugTools::Console::_log("No more ft jerks jack", __FUNCTION__);
+    
 }

@@ -5,6 +5,7 @@
 #include "SettingsPage.xaml.h"
 #include <windows.h>
 #include "DConsole.hpp"
+#include "Downloader.hpp"
 #include <SettingsClass.hpp>
 #include <AtlBase.h>
 #include <atlconv.h>
@@ -143,3 +144,9 @@ std::wstring winrt::Terrible_Programs_Installer::implementation::SettingsPage::G
 }
 
 
+
+
+void winrt::Terrible_Programs_Installer::implementation::SettingsPage::DeleteChache_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+{
+    DebugTools::Downloader::DeleteAssets(true);
+}

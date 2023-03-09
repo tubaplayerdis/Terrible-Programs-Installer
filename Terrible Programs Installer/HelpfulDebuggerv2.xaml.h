@@ -21,7 +21,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
         winrt::hstring ScreenShot1();
         void ScreenShot1(winrt::hstring);
 
-        concurrency::task<bool> TestFunc(std::wstring const& assetloc);
+        concurrency::task<std::list<std::wstring>> TestFunc(std::wstring const& assetloc);
         
         
         void EnableUIDebug(int toggle);
