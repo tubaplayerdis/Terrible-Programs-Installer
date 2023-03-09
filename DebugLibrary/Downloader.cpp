@@ -174,7 +174,7 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _ass
 	{
 		_list.push_back(L"FAIL");
 		DebugTools::Console::_log("Failed to download item A", "HD2 Async func");
-	}
+	}	
 
 	//Image1
 	std::wstring dwnld_URL1 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/Nickocaodo.png";
@@ -189,7 +189,7 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _ass
 	}
 
 
-
+	DebugTools::Downloader::PrintList(_list);
 	return _list;
 }
 

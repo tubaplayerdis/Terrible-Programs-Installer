@@ -57,7 +57,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
 
         for (std::wstring item : list) {
-            returnlist.assign(1, item);
+            returnlist.push_back(item); //this caused it lol
         }
         
         /*
@@ -190,7 +190,11 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
         bitmapImage.UriSource(uri);
         scren1().ImageSource(bitmapImage);
         //image source 2
-
+        Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage1;
+        std::wstring picstring1 = L"\\HD2B.png";
+        Windows::Foundation::Uri uri1{ DebugTools::Downloader::AssetLocation + picstring1 };
+        bitmapImage1.UriSource(uri1);
+        scren2().ImageSource(bitmapImage1);
         //Image source 3
 
         //Image source 4
@@ -217,6 +221,7 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
 
     try {
         std::list<std::wstring> stg = firstTitleOp.get();
+        DebugTools::Downloader::PrintList(stg);
         int x = 0;
         for (std::wstring item : stg)
         {
@@ -242,9 +247,16 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
                 break;
 
             case 1:
-                break;
                 scren2().ImageSource(bitmapImage);
-                //scren2
+                break;                
+                //This was the old code:
+                /*
+                case 1:
+                    break;
+                    scren2().ImageSource(bitmapImage);
+                                
+                I can assure you I am NOT a retard
+                */
                 
                 //Implement other numbers to other images
             default:

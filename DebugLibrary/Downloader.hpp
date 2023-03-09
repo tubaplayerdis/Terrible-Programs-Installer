@@ -30,8 +30,9 @@ namespace DebugTools {
 
 		static void DeleteAssets(bool LogEvent);
 
-	private:
 		static void PrintList(std::list<std::wstring> const& list);
+	private:
+		//static void PrintList(std::list<std::wstring> const& list);
 		static std::wstring CurrentWorkingDir();
 		static std::wstring GetExeFileName();
 	};
