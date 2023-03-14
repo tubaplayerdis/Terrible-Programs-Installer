@@ -32,7 +32,7 @@ using namespace Microsoft::UI::Xaml;
 
 namespace winrt::Terrible_Programs_Installer::implementation
 {
-
+    
     HelpfulDebuggerv2::HelpfulDebuggerv2()
     {
         //Download Assets
@@ -49,11 +49,14 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
     }
 
-    concurrency::task<std::list<std::wstring>> HelpfulDebuggerv2::TestFunc(std::wstring const& assetloc)
-    {
+    
+
+    concurrency::task<void> HelpfulDebuggerv2::TestFunc(std::wstring const& assetloc)
+    {       
+        
         return concurrency::create_task([assetloc]
             {
-                concurrency::task_completion_event<std::list<std::wstring>> stuff;
+                concurrency::task_completion_event<void> stuff;
         DebugTools::Downloader downloader;
         std::list<std::wstring> list = downloader.A_GetHD2Assets(assetloc);
         std::list<std::wstring> returnlist;
@@ -62,20 +65,103 @@ namespace winrt::Terrible_Programs_Installer::implementation
         for (std::wstring item : list) {
             returnlist.push_back(item); //this caused it lol
         }
-        
         /*
         Windows::System::DispatcherQueue disp = Windows::System::DispatcherQueue::GetForCurrentThread();
-        bool blah = disp.TryEnqueue([] {
-            
-            
+        bool blah = disp.TryEnqueue([shit, returnlist] {
 
-        });
+            SetAssetData(returnlist);
+
+            });
         */
-        return returnlist;
+        
+        return;
 
         });
+        
     }
 
+
+    void HelpfulDebuggerv2::SetAssetData(std::list<std::wstring> listarg)
+    {
+        DebugTools::Console::_log("It inited", __FUNCTION__);
+
+
+        std::list<std::wstring> stg = listarg;
+        DebugTools::Downloader::PrintList(stg);
+        int x = 0;
+        for (std::wstring item : stg)
+        {
+            if (x == 0) {
+                if (item == L"FAIL") {/*Implementation of defualt item text*/ x++; continue; }
+                std::wstring text;
+                std::string line;
+                std::ifstream descfile(DebugTools::Downloader::AssetLocation + L"\\HD2DESC.txt");
+                if (descfile.is_open()) {
+                    while (std::getline(descfile, line))
+                    {
+                        text.append(std::wstring(line.begin(), line.end()));
+                    }
+                    App_Desc().Text(text);
+                }
+                //Implementation of desc setting here
+
+                x++;
+                continue;
+            }
+            //DebugTools::Console::_log("Moment of truth...", __FUNCTION__);
+            Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
+            std::wstring picstring = L"\\" + item;
+            Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
+            Windows::Foundation::Uri urf{ DebugTools::Downloader::RunningDirectory + L"\\No_Image.jpg" };
+            if (item == L"FAIL")
+            {
+                bitmapImage.UriSource(urf);
+            }
+            else
+            {
+                bitmapImage.UriSource(uri);
+            }
+            DebugTools::Console::_log(L"Current Item: " + item);
+            switch (x)
+            {
+            case 1:
+                scren1().ImageSource(bitmapImage);
+                break;
+
+            case 2:
+                scren2().ImageSource(bitmapImage);
+                break;
+                //This was the old code:
+                /*
+                case 1:
+                    break;
+                    scren2().ImageSource(bitmapImage);
+
+                I can assure you I am NOT a retard
+                */
+
+                //Implement other numbers to other images
+            default:
+                break;
+            }
+
+
+
+
+            //Microsoft::UI::Xaml::Media::Imaging::BitmapImage{ Windows::Foundation::Uri{ L"WAssets/HD2100Scale.png" } }
+            DebugTools::Console::_log("Loop: " + std::to_string(x) + "Done", __FUNCTION__);
+            x++;
+        }
+        DebugTools::Console::_log("I said, SUCK MY BALLS MR GARRISON", __FUNCTION__);
+
+
+        // We now close this thanggggggggggggggg
+        //TheInfoBar().IsOpen(false);
+
+        DebugTools::Console::_log("No more ft jerks jack", __FUNCTION__);
+
+
+    }
 
     winrt::hstring HelpfulDebuggerv2::ScreenShot1()
     {
@@ -172,6 +258,28 @@ namespace winrt::Terrible_Programs_Installer::implementation
             }
         }
     }
+
+    Windows::Foundation::IAsyncAction HelpfulDebuggerv2::EarlyInTheMornin(std::wstring const& assetloc)
+    {
+
+        winrt::apartment_context ui_thread;
+
+        co_await winrt::resume_background();
+        //Read this on the co_await etc: https://learn.microsoft.com/en-us/windows/uwp/cpp-and-winrt-apis/concurrency-2
+        DebugTools::Downloader downloader;
+        std::list<std::wstring> list = downloader.A_GetHD2Assets(assetloc);
+        std::list<std::wstring> returnlist;
+
+
+        for (std::wstring item : list) {
+            returnlist.push_back(item); //this caused it lol
+        }
+
+        co_await ui_thread;
+
+        SetAssetData(returnlist);
+        
+    }
    
     
     
@@ -184,6 +292,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
 //THIS FUNCTION IS CALLED WHEN THE INFO BAR LOADS NOT THE PAGE
 void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
 {
+    
     //Cache checks
     if (DebugTools::Downloader::_VerifyHD2Cache()) {
         //Desc
@@ -223,7 +332,7 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
     //TheInfoBar().IsOpen(true);
 
 
-    auto firstTitleOp{ TestFunc(DebugTools::Downloader::AssetLocation) };
+    auto firstTitleOp{ EarlyInTheMornin(DebugTools::Downloader::AssetLocation) };
 
     DebugTools::Console::_log("Holy shit guys 9000 ops on async operations, fuck microsoft frfr", __FUNCTION__);
 
@@ -233,82 +342,6 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
 
     
     
-    DebugTools::Console::_log("It inited", __FUNCTION__);
-
-    
-    std::list<std::wstring> stg = firstTitleOp.get();
-    DebugTools::Downloader::PrintList(stg);
-    int x = 0;
-    for (std::wstring item : stg)
-    {
-        if (x == 0) {
-            if (item == L"FAIL") {/*Implementation of defualt item text*/ x++; continue; }
-            std::wstring text;
-            std::string line;
-            std::ifstream descfile(DebugTools::Downloader::AssetLocation + L"\\HD2DESC.txt");                
-            if (descfile.is_open()) {
-                while ( std::getline(descfile,line) )
-                {
-                    text.append(std::wstring(line.begin(), line.end()));
-                }
-                App_Desc().Text(text);
-            }
-            //Implementation of desc setting here
-
-            x++;
-            continue;
-        }
-        //DebugTools::Console::_log("Moment of truth...", __FUNCTION__);
-        Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
-        std::wstring picstring = L"\\" + item;
-        Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
-        Windows::Foundation::Uri urf{ DebugTools::Downloader::RunningDirectory + L"\\No_Image.jpg" };
-        if (item == L"FAIL")
-        {
-            bitmapImage.UriSource(urf);
-        }
-        else
-        {
-            bitmapImage.UriSource(uri);
-        }            
-        DebugTools::Console::_log(L"Current Item: " + item);
-        switch (x)
-        {
-        case 1:
-            scren1().ImageSource(bitmapImage);
-            break;
-
-        case 2:
-            scren2().ImageSource(bitmapImage);
-            break;                
-            //This was the old code:
-            /*
-            case 1:
-                break;
-                scren2().ImageSource(bitmapImage);
-                                
-            I can assure you I am NOT a retard
-            */
-                
-            //Implement other numbers to other images
-        default:
-            break;
-        }
-
-
-
-            
-        //Microsoft::UI::Xaml::Media::Imaging::BitmapImage{ Windows::Foundation::Uri{ L"WAssets/HD2100Scale.png" } }
-        DebugTools::Console::_log("Loop: " + std::to_string(x) + "Done", __FUNCTION__);
-        x++;
-        }        
-            DebugTools::Console::_log("I said, SUCK MY BALLS MR GARRISON", __FUNCTION__);        
-    
-    
-    // We now close this thanggggggggggggggg
-    //TheInfoBar().IsOpen(false);
-
-    DebugTools::Console::_log("No more ft jerks jack", __FUNCTION__);
     
 }
 

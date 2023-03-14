@@ -101,6 +101,10 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
         //Init In asset Downloader
         DebugTools::Downloader::_Initilize();
+
+
+        TheInfoBar().Message(L"Welcome to TPI.");
+        TheInfoBar().IsOpen(true);
     }
 
     
@@ -111,8 +115,9 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
 void winrt::Terrible_Programs_Installer::implementation::MainWindow::The_NavigationView_ItemInvoked(winrt::Microsoft::UI::Xaml::Controls::NavigationView const& sender, winrt::Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const& args)
 {
-    
+    TheInfoBar().Message(L"Loading page...");
     TheInfoBar().IsOpen(true); 
+    TheInfoBar().UpdateLayout();
     //Saying visible when its not
     Microsoft::UI::Xaml::Visibility lol = TheInfoBar().Visibility();
     DebugTools::Console::_log(std::to_string((int)lol), "Visibility 1=no 0=yes");

@@ -18,10 +18,14 @@ namespace winrt::Terrible_Programs_Installer::implementation
         
         HelpfulDebuggerv2();
         
+
+        void SetAssetData(std::list<std::wstring> listarg);
+
         winrt::hstring ScreenShot1();
         void ScreenShot1(winrt::hstring);
 
-        concurrency::task<std::list<std::wstring>> TestFunc(std::wstring const& assetloc);
+        Windows::Foundation::IAsyncAction EarlyInTheMornin(std::wstring const& assetloc);
+        concurrency::task<void> TestFunc(std::wstring const& assetloc);
         
         
         void EnableUIDebug(int toggle);
