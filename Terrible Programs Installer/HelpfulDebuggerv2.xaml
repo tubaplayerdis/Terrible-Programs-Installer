@@ -9,48 +9,58 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Loaded="Page_Loaded">
+    Loaded="Page_Loaded"
+    SizeChanged="Page_SizeChanged"
+    x:Name="EricCartman"
+    
+    >
 
-    <Grid Padding="20">
-        <Grid.Resources>
-            <CornerRadius x:Key="ControlCornerRadius">8</CornerRadius>
-        </Grid.Resources>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" ></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <!--UI Design-->
-        <!--App Icon + Download + extra info-->
-        <!--App Gen Desc-->
-        <Border BorderBrush="Transparent" CornerRadius="2,2,2,2" BorderThickness="4,4,4,4" x:Name="VerticalPaneBorder">
-            <StackPanel Grid.Column="0" Background="Transparent" Spacing="20" CornerRadius="10" VerticalAlignment="Top">
-                <!--Image-->
-                <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="150"  Height="150" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder"
+
+    
+        <Grid Padding="20" Width="auto" x:Name="Butters">
+            <Grid.Resources>
+                <CornerRadius x:Key="ControlCornerRadius">8</CornerRadius>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" ></ColumnDefinition>
+                <ColumnDefinition Width="*" x:Name="ColumnTwo"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <!--UI Design-->
+            <!--App Icon + Download + extra info-->
+            <!--App Gen Desc-->
+            <Border BorderBrush="Transparent" CornerRadius="2,2,2,2" BorderThickness="4,4,4,4" x:Name="VerticalPaneBorder">
+                <StackPanel Grid.Column="0" Background="Transparent" Spacing="20" CornerRadius="10" VerticalAlignment="Top">
+                    <!--Image-->
+                    <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="150"  Height="150" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder"
                                CacheMode="BitmapCache" CornerRadius="10,10,10,10">
-                    <!-- left-top and bottom-right round corners. -->
-                    <Border.Background>
-                        <ImageBrush x:Name="App_Image" ImageSource="StoreLogo.scale-400.png"  Stretch="Fill"></ImageBrush>
-                    </Border.Background>
-                </Border>
-                <!--Image End-->
-                <StackPanel Spacing="10">
-                    <TextBlock x:Name="App_name" Style="{StaticResource AppTitleCus}" Text="Helpful Debugger V2" HorizontalAlignment="Center"></TextBlock>
-                    <TextBlock x:Name="App_Descprev" Style="{StaticResource BodyStrongTextBlockStyle}" Text="There is no description aviable" HorizontalAlignment="Center"></TextBlock>
+                        <!-- left-top and bottom-right round corners. -->
+                        <Border.Background>
+                            <ImageBrush x:Name="App_Image" ImageSource="StoreLogo.scale-400.png"  Stretch="Fill"></ImageBrush>
+                        </Border.Background>
+                    </Border>
+                    <!--Image End-->
+                    <StackPanel Spacing="10">
+                        <TextBlock x:Name="App_name" Style="{StaticResource AppTitleCus}" Text="Helpful Debugger V2" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock x:Name="App_Avtex" Style="{StaticResource BodyStrongTextBlockStyle}" Text="Currently available" HorizontalAlignment="Center" TextAlignment="Center"></TextBlock>
+                    </StackPanel>
+
+                    <Button HorizontalAlignment="Center" Style="{StaticResource AccentButtonStyle}" >Install</Button>
+
                 </StackPanel>
+            </Border>
 
-                <Button HorizontalAlignment="Center" Style="{StaticResource AccentButtonStyle}" >Install</Button>
-                
-            </StackPanel>
-        </Border>
+            <Border BorderBrush="Aqua" CornerRadius="2,2,2,2" BorderThickness="4,4,4,4" x:Name="ScreenShotsanddescription" Grid.Column="1" >
+                <StackPanel Background="Transparent" Spacing="20" CornerRadius="10" VerticalAlignment="Top">
+                    <StackPanel Spacing="10">
+                        <TextBlock x:Name="App_Screns" Style="{StaticResource AppTitleCus}" Text="Screenshots:" HorizontalAlignment="Center"></TextBlock>
 
-        <Border BorderBrush="Aqua" CornerRadius="2,2,2,2" BorderThickness="4,4,4,4" x:Name="ScreenShotsanddescription" Grid.Column="1">
-            <StackPanel Background="Transparent" Spacing="20" CornerRadius="10" VerticalAlignment="Top">
-                <StackPanel Spacing="10">
-                    <TextBlock x:Name="App_Screns" Style="{StaticResource AppTitleCus}" Text="Screenshots:" HorizontalAlignment="Center"></TextBlock>
-                    
-                    <ListView x:Name="ScreenShotList" ItemsSource="">
-                           
-                       <!--
+
+
+
+                        <ScrollViewer HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Visible">
+                            <StackPanel Orientation="Horizontal" x:Name="Suckit" Width="auto">
+
+                                <!--
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:ScreenShotData" x:Name="PhotosDataTemplate">
                                 <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="250"  Height="150" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder1"
@@ -64,31 +74,38 @@
                         </ListView.ItemTemplate>
                         -->
 
-                        <ListViewItem>
-                            <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder1"
-                               CacheMode="BitmapCache" CornerRadius="10,10,10,10">
-                                <!-- left-top and bottom-right round corners. -->
-                                <Border.Background>
-                                    <ImageBrush x:Name="scren1" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
-                                </Border.Background>
-                            </Border>
-                        </ListViewItem>
 
-                        <ListViewItem>
-                            <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder2"
+                                <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder1"
                                CacheMode="BitmapCache" CornerRadius="10,10,10,10">
-                                <!-- left-top and bottom-right round corners. -->
-                                <Border.Background>
-                                    <ImageBrush x:Name="scren2" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
-                                </Border.Background>
-                            </Border>
-                        </ListViewItem>
+                                    <!-- left-top and bottom-right round corners. -->
+                                    <Border.Background>
+                                        <ImageBrush x:Name="scren1" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
+                                    </Border.Background>
+                                </Border>
 
-                    </ListView>
-                    <TextBlock x:Name="App_Desc" Style="{StaticResource AppTitleCus}" Text="Description:" HorizontalAlignment="Center"></TextBlock>
+
+
+                                <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder2"
+                               CacheMode="BitmapCache" CornerRadius="10,10,10,10">
+                                    <!-- left-top and bottom-right round corners. -->
+                                    <Border.Background>
+                                        <ImageBrush x:Name="scren2" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
+                                    </Border.Background>
+                                </Border>
+
+
+                            </StackPanel>
+                        </ScrollViewer>
+                        <TextBlock x:Name="App_D" Style="{StaticResource AppTitleCus}" Text="Description:" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"></TextBlock>
+                        <TextBlock x:Name="App_Desc" Style="{StaticResource BodyTextBlockStyle}" Text="" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Left"></TextBlock>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-        </Border>
-        <!--App Gen Desc End-->
-    </Grid>
+            </Border>
+            <!--App Gen Desc End-->
+        </Grid>
+    
+    
+    
+
+
 </Page>

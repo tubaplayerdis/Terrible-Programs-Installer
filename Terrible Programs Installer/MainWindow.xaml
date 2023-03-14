@@ -7,28 +7,44 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Terrible_Programs_Installer"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
     mc:Ignorable="d"
     Closed="Window_Closed">
-
     <Grid>
-        <NavigationView x:Name="The_NavigationView" IsSettingsVisible="True" ItemInvoked="The_NavigationView_ItemInvoked" PaneTitle="Terrible Programs Installer" PaneDisplayMode="Left">
-            <NavigationView.MenuItems>
-                <NavigationViewItem x:Name="ABT" Tag="ABT">About</NavigationViewItem>
-                <NavigationViewItemHeader>Available Programs</NavigationViewItemHeader>
-                <NavigationViewItem Tag="HB2">Helpful DebuggerV2.0</NavigationViewItem>
-                <NavigationViewItem>Helpful DebuggerV1.0</NavigationViewItem>
-                <NavigationViewItem>Social Credit Test Game</NavigationViewItem>
-                <NavigationViewItem>Password Generator</NavigationViewItem>
-                <NavigationViewItemHeader>Coming Evantually</NavigationViewItemHeader>
-                <NavigationViewItem>Nickocado Avocado Game</NavigationViewItem>
-                <NavigationViewItem>Purkaminen Client</NavigationViewItem>
-            </NavigationView.MenuItems>
-            <ScrollViewer>
-                <Frame x:Name="The_Frame">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <InfoBar
+            Grid.Column="0"
+            Grid.Row="0"
+            x:Name="TheInfoBar"
+            IsOpen="False"
+            IsClosable="True"
+            Title="TPI"
+            Message="Loading Page..."
+            Severity="Informational"
+            IsIconVisible="True"           
+            ></InfoBar>
+        
+            <NavigationView x:Name="The_NavigationView" IsSettingsVisible="True" ItemInvoked="The_NavigationView_ItemInvoked" PaneTitle="Terrible Programs Installer" PaneDisplayMode="Left" Grid.Column="0" Grid.Row="1">
+                <NavigationView.MenuItems>
+                    <NavigationViewItem x:Name="ABT" Tag="ABT">About</NavigationViewItem>
+                    <NavigationViewItemHeader>Available Programs</NavigationViewItemHeader>
+                    <NavigationViewItem Tag="HB2">Helpful DebuggerV2.0</NavigationViewItem>
+                    <NavigationViewItem>Helpful DebuggerV1.0</NavigationViewItem>
+                    <NavigationViewItem>Social Credit Test Game</NavigationViewItem>
+                    <NavigationViewItem>Password Generator</NavigationViewItem>
+                    <NavigationViewItemHeader>Coming Evantually</NavigationViewItemHeader>
+                    <NavigationViewItem>Nickocado Avocado Game</NavigationViewItem>
+                    <NavigationViewItem>Purkaminen Client</NavigationViewItem>
+                </NavigationView.MenuItems>
+                <ScrollViewer>
+                    <Frame x:Name="The_Frame">
 
-                </Frame>
-            </ScrollViewer>
-        </NavigationView>
+                    </Frame>
+                </ScrollViewer>
+            </NavigationView>
+
     </Grid>
 </Window>

@@ -11,6 +11,7 @@
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
 #endif
+#include "ProgramInfo.h"
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -75,6 +76,26 @@ namespace winrt::Terrible_Programs_Installer::implementation
         }
 #pragma endregion
 
+        //Set stuff lol
+        TPIExtra::ProgramInfo::_windowhwnd = hwnd;
+        RECT rect;
+        int height;
+        int width;
+        if (GetWindowRect(hwnd, &rect))
+        {
+            width = rect.right - rect.left;
+            height = rect.bottom - rect.top;
+        }
+        TPIExtra::ProgramInfo::_windowheight = height;
+        TPIExtra::ProgramInfo::_windowwidth = width;
+        TPIExtra::ProgramInfo::_printhandw();
+
+        // Windows Debugger didnt like this part
+        /*
+        delete &height;
+        delete &width;
+        */
+
         //load in settings
         DebugTools::SettingsClass::LoadSettings();
 
@@ -90,19 +111,36 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
 void winrt::Terrible_Programs_Installer::implementation::MainWindow::The_NavigationView_ItemInvoked(winrt::Microsoft::UI::Xaml::Controls::NavigationView const& sender, winrt::Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const& args)
 {
+    
+    TheInfoBar().IsOpen(true); 
+    //Saying visible when its not
+    Microsoft::UI::Xaml::Visibility lol = TheInfoBar().Visibility();
+    DebugTools::Console::_log(std::to_string((int)lol), "Visibility 1=no 0=yes");
+    while(true) {
+        if (lol == Microsoft::UI::Xaml::Visibility::Collapsed) {
+            TheInfoBar().IsOpen(true);
+        }
+        else
+        {
+            break;
+        }
+        DebugTools::Console::_log("Looping");
+    }
     std::wstring the_tag = winrt::unbox_value_or<winrt::hstring>(args.InvokedItemContainer().Tag(), L"").c_str();
     DebugTools::Console::_log(L"Tag of invoked Navigation View Item:" + the_tag);
    if (the_tag == L"ABT") {     
-                
+       TheInfoBar().IsOpen(false);
    }
    else if (the_tag == L"HB2") {
-        The_Frame().Navigate(xaml_typename<Terrible_Programs_Installer::HelpfulDebuggerv2>());
+       //Dont cloase the loading thing
+        The_Frame().Navigate(xaml_typename<Terrible_Programs_Installer::HelpfulDebuggerv2>());       
         DebugTools::Console::_log(L"Navigated to:" + the_tag);
    }
    else if(the_tag == L"Settings")
    {
        The_Frame().Navigate(xaml_typename<Terrible_Programs_Installer::SettingsPage>());
        DebugTools::Console::_log(L"Navigated to:" + the_tag);
+       TheInfoBar().IsOpen(false);
    }
 }
 

@@ -6,8 +6,7 @@ To do:
 Ideas:
 
 
-cache system where verification of images by name, so no async loading - done
-ability to clear cache - done
+Master control system to deicded which app gets loaded in when loading storepage(HelpfulDebuggerv2.xaml), seperate all the icon loading blah blah
 logging system where if application errors, write it console cache to log, maybe use another app? - i "have" to do this
 
 Notes:

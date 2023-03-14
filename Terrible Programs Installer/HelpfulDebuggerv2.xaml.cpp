@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "HelpfulDebuggerv2.xaml.h"
+#include <winrt/Microsoft.UI.Windowing.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Imaging.h> //Needed for bitmap image please dont remove, ill put it in pch
 #include <winrt/Windows.UI.h>
 #include <winrt/Windows.UI.ViewManagement.h>
@@ -16,6 +17,8 @@
 #include <ppltasks.h>
 #include <windows.h>
 #include <winuser.h>
+#include <fstream>
+#include "ProgramInfo.h"
 #include <SensAPI.h>
 #pragma comment(lib, "Sensapi.lib")
 
@@ -178,11 +181,22 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
 }
 
-
+//THIS FUNCTION IS CALLED WHEN THE INFO BAR LOADS NOT THE PAGE
 void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
 {
     //Cache checks
     if (DebugTools::Downloader::_VerifyHD2Cache()) {
+        //Desc
+        std::wstring text;
+        std::string line;
+        std::ifstream descfile(DebugTools::Downloader::AssetLocation + L"\\HD2DESC.txt");
+        if (descfile.is_open()) {
+            while (std::getline(descfile, line))
+            {
+                text.append(std::wstring(line.begin(), line.end()));
+            }
+            App_Desc().Text(text);
+        }
         //Image source 1
         Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
         std::wstring picstring = L"\\HD2A.png";
@@ -205,6 +219,8 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
         return;
     }
 
+    //The downloading thing yup
+    //TheInfoBar().IsOpen(true);
 
 
     auto firstTitleOp{ TestFunc(DebugTools::Downloader::AssetLocation) };
@@ -219,65 +235,94 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
     
     DebugTools::Console::_log("It inited", __FUNCTION__);
 
-    try {
-        std::list<std::wstring> stg = firstTitleOp.get();
-        DebugTools::Downloader::PrintList(stg);
-        int x = 0;
-        for (std::wstring item : stg)
-        {
-            
-            //DebugTools::Console::_log("Moment of truth...", __FUNCTION__);
-            Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
-            std::wstring picstring = L"\\" + item;
-            Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
-            Windows::Foundation::Uri urf{ DebugTools::Downloader::RunningDirectory + L"\\No_Image.jpg" };
-            if (item == L"FAIL")
-            {
-                bitmapImage.UriSource(urf);
+    
+    std::list<std::wstring> stg = firstTitleOp.get();
+    DebugTools::Downloader::PrintList(stg);
+    int x = 0;
+    for (std::wstring item : stg)
+    {
+        if (x == 0) {
+            if (item == L"FAIL") {/*Implementation of defualt item text*/ x++; continue; }
+            std::wstring text;
+            std::string line;
+            std::ifstream descfile(DebugTools::Downloader::AssetLocation + L"\\HD2DESC.txt");                
+            if (descfile.is_open()) {
+                while ( std::getline(descfile,line) )
+                {
+                    text.append(std::wstring(line.begin(), line.end()));
+                }
+                App_Desc().Text(text);
             }
-            else
-            {
-                bitmapImage.UriSource(uri);
-            }            
-            DebugTools::Console::_log(L"Current Item: " + item);
-            switch (x)
-            {
-            case 0:
-                scren1().ImageSource(bitmapImage);
-                break;
+            //Implementation of desc setting here
 
-            case 1:
-                scren2().ImageSource(bitmapImage);
-                break;                
-                //This was the old code:
-                /*
-                case 1:
-                    break;
-                    scren2().ImageSource(bitmapImage);
-                                
-                I can assure you I am NOT a retard
-                */
-                
-                //Implement other numbers to other images
-            default:
-                break;
-            }
-
-
-
-            
-            //Microsoft::UI::Xaml::Media::Imaging::BitmapImage{ Windows::Foundation::Uri{ L"WAssets/HD2100Scale.png" } }
-            DebugTools::Console::_log("Loop: " + std::to_string(x) + "Done", __FUNCTION__);
             x++;
+            continue;
+        }
+        //DebugTools::Console::_log("Moment of truth...", __FUNCTION__);
+        Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
+        std::wstring picstring = L"\\" + item;
+        Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
+        Windows::Foundation::Uri urf{ DebugTools::Downloader::RunningDirectory + L"\\No_Image.jpg" };
+        if (item == L"FAIL")
+        {
+            bitmapImage.UriSource(urf);
+        }
+        else
+        {
+            bitmapImage.UriSource(uri);
+        }            
+        DebugTools::Console::_log(L"Current Item: " + item);
+        switch (x)
+        {
+        case 1:
+            scren1().ImageSource(bitmapImage);
+            break;
+
+        case 2:
+            scren2().ImageSource(bitmapImage);
+            break;                
+            //This was the old code:
+            /*
+            case 1:
+                break;
+                scren2().ImageSource(bitmapImage);
+                                
+            I can assure you I am NOT a retard
+            */
+                
+            //Implement other numbers to other images
+        default:
+            break;
+        }
+
+
+
+            
+        //Microsoft::UI::Xaml::Media::Imaging::BitmapImage{ Windows::Foundation::Uri{ L"WAssets/HD2100Scale.png" } }
+        DebugTools::Console::_log("Loop: " + std::to_string(x) + "Done", __FUNCTION__);
+        x++;
         }        
             DebugTools::Console::_log("I said, SUCK MY BALLS MR GARRISON", __FUNCTION__);        
-    }
-    catch (std::exception e) {
-        MessageBoxA(NULL, e.what(), "Ive died be happy", MB_OK);
-    }
-
-
+    
+    
+    // We now close this thanggggggggggggggg
+    //TheInfoBar().IsOpen(false);
 
     DebugTools::Console::_log("No more ft jerks jack", __FUNCTION__);
     
+}
+
+
+void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page_SizeChanged(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::SizeChangedEventArgs const& e)
+{
+    //Not Nececarry, all i needed was an asterisk
+    /*
+    RECT rect;
+    if (GetWindowRect(TPIExtra::ProgramInfo::_windowhwnd, &rect))
+    {
+        width = rect.right - rect.left;
+        height = rect.bottom - rect.top;
+    }
+    ColumnTwo().Width(8);
+    */
 }

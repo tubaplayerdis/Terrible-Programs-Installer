@@ -77,8 +77,9 @@ bool DebugTools::Downloader::_VerifyHD2Cache()
 	/*
 	List of Images to veryify
 
+	HD2DESC.txt
 	HD2A.png
-
+	HD2B.png
 	
 	*/
 	
@@ -87,10 +88,15 @@ bool DebugTools::Downloader::_VerifyHD2Cache()
 	//self explanatory
 	if(!std::filesystem::exists(AssetLocation)) return false;
 
+	//Desc Verify
+	if (!std::filesystem::exists(AssetCheck + L"HD2DESC.txt")) return false;
+	DebugTools::Console::_log("Description Verified", "HD2 Check Cache");
 	//Image veryify
 
 	if(!std::filesystem::exists(AssetCheck + L"HD2A.png")) return false;
+	DebugTools::Console::_log("Image0 Verified", "HD2 Check Cache");
 	if(!std::filesystem::exists(AssetCheck + L"HD2B.png")) return false;
+	DebugTools::Console::_log("Image1 Verified", "HD2 Check Cache");
 
 	//only happens if all checks are passed
 	return true;
@@ -166,6 +172,20 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _ass
 
 
 	//NOTE - This code below needs to be memory optimized by changing the vriables instead of making new ones and then deleting them, its a memory leak waiting to happen
+
+	//Desc
+	//Image0
+	std::wstring dwnld_URL = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/descriptions/HD2DESC.txt";
+	std::wstring savepath = _assetloc + L"\\HD2DESC.txt";
+	if (URLDownloadToFileW(NULL, dwnld_URL.c_str(), savepath.c_str(), 0, NULL) == S_OK) {
+		_list.push_back(L"HD2DESC.txt");
+	}
+	else
+	{
+		_list.push_back(L"FAIL");
+		DebugTools::Console::_log("Failed to download item DESC", "HD2 Async func");
+	}
+
 
 	//Image0
 	std::wstring dwnld_URL0 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png";
