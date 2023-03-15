@@ -14,10 +14,25 @@
     x:Name="EricCartman"
     
     >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <InfoBar
+            Grid.Column="0"
+            Grid.Row="0"
+            x:Name="InfoBarBeaner"
+            IsOpen="False"
+            IsClosable="True"
+            Title="TPI"
+            Message="Loading store assets..."
+            Severity="Informational"
+            IsIconVisible="True"           
+        ></InfoBar>
 
 
-    
-        <Grid Padding="20" Width="auto" x:Name="Butters">
+        <Grid Padding="20" Width="auto" x:Name="Butters" Grid.Row="2">
             <Grid.Resources>
                 <CornerRadius x:Key="ControlCornerRadius">8</CornerRadius>
             </Grid.Resources>
@@ -25,6 +40,10 @@
                 <ColumnDefinition Width="250" ></ColumnDefinition>
                 <ColumnDefinition Width="*" x:Name="ColumnTwo"></ColumnDefinition>
             </Grid.ColumnDefinitions>
+
+
+
+
             <!--UI Design-->
             <!--App Icon + Download + extra info-->
             <!--App Gen Desc-->
@@ -103,9 +122,9 @@
             </Border>
             <!--App Gen Desc End-->
         </Grid>
-    
-    
-    
+
+
+    </Grid>
 
 
 </Page>

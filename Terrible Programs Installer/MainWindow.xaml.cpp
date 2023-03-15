@@ -115,15 +115,18 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
 void winrt::Terrible_Programs_Installer::implementation::MainWindow::The_NavigationView_ItemInvoked(winrt::Microsoft::UI::Xaml::Controls::NavigationView const& sender, winrt::Microsoft::UI::Xaml::Controls::NavigationViewItemInvokedEventArgs const& args)
 {
+    /*
     TheInfoBar().Message(L"Loading page...");
     TheInfoBar().IsOpen(true); 
     TheInfoBar().UpdateLayout();
+    */
     //Saying visible when its not
+    /*
     Microsoft::UI::Xaml::Visibility lol = TheInfoBar().Visibility();
     DebugTools::Console::_log(std::to_string((int)lol), "Visibility 1=no 0=yes");
     while(true) {
         if (lol == Microsoft::UI::Xaml::Visibility::Collapsed) {
-            TheInfoBar().IsOpen(true);
+            //TheInfoBar().IsOpen(true);
         }
         else
         {
@@ -131,10 +134,11 @@ void winrt::Terrible_Programs_Installer::implementation::MainWindow::The_Navigat
         }
         DebugTools::Console::_log("Looping");
     }
+    */
     std::wstring the_tag = winrt::unbox_value_or<winrt::hstring>(args.InvokedItemContainer().Tag(), L"").c_str();
     DebugTools::Console::_log(L"Tag of invoked Navigation View Item:" + the_tag);
    if (the_tag == L"ABT") {     
-       TheInfoBar().IsOpen(false);
+       //TheInfoBar().IsOpen(false);
    }
    else if (the_tag == L"HB2") {
        //Dont cloase the loading thing
@@ -145,7 +149,7 @@ void winrt::Terrible_Programs_Installer::implementation::MainWindow::The_Navigat
    {
        The_Frame().Navigate(xaml_typename<Terrible_Programs_Installer::SettingsPage>());
        DebugTools::Console::_log(L"Navigated to:" + the_tag);
-       TheInfoBar().IsOpen(false);
+       //TheInfoBar().IsOpen(false);
    }
 }
 

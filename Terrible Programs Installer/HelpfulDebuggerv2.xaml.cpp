@@ -7,6 +7,8 @@
 #include <winrt/Microsoft.UI.Xaml.Media.Imaging.h> //Needed for bitmap image please dont remove, ill put it in pch
 #include <winrt/Windows.UI.h>
 #include <winrt/Windows.UI.ViewManagement.h>
+#include <winrt/Windows.UI.Core.h>
+#include <winrt/Microsoft.UI.Dispatching.h>
 #include <winrt/Windows.Foundation.h>//not needed since it is in the pch
 #if __has_include("HelpfulDebuggerv2.g.cpp")
 #include "HelpfulDebuggerv2.g.cpp"
@@ -45,12 +47,12 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
 
         InitializeComponent();
-
+        DispatcherL = winrt::Microsoft::UI::Dispatching::DispatcherQueue::GetForCurrentThread();
 
     }
 
     
-
+    //FUNCTION IS NOT BEING USED
     concurrency::task<void> HelpfulDebuggerv2::TestFunc(std::wstring const& assetloc)
     {       
         
@@ -79,7 +81,153 @@ namespace winrt::Terrible_Programs_Installer::implementation
         });
         
     }
+    
 
+    Windows::Foundation::IAsyncAction HelpfulDebuggerv2::EarlyInTheMornin(std::wstring const& assetloc)
+    {
+        //Read this on the co_await etc: https://learn.microsoft.com/en-us/windows/uwp/cpp-and-winrt-apis/concurrency-2
+        //winrt::apartment_context ui_thread;
+
+        
+
+        co_await winrt::resume_background(); //Needed to start backround activities
+
+        DispatcherL.TryEnqueue([this] {
+
+            InfoBarBeaner().IsOpen(true);
+
+        });
+        
+#pragma region Downloader
+        DebugTools::Downloader downloader;
+        std::list<std::wstring> list = downloader.A_GetHD2Assets(assetloc);
+        std::list<std::wstring> returnlist;
+
+
+        for (std::wstring item : list) {
+            returnlist.push_back(item); //this caused it lol
+        }
+#pragma endregion
+
+#pragma region AssetStuff
+        DebugTools::Console::_log("Assetr stuff", __FUNCTION__);
+
+        /* HAVE TO FACT CHECK THIS SHIT
+        No, this is a difference between Desktop and UWP. In Desktop apps, CoreDispatcher doesn't work,
+        because there is no CoreWindow that owns the message pump. Instead, you need to use the DependencyObject.DispatcherQueue property. In fact,
+        DependencyObject.DispatcherQueue will work in both UWP and Desktop, so it's recommended to always use that if you can                
+        */
+
+
+
+
+        std::list<std::wstring> stg = returnlist;
+        DebugTools::Downloader::PrintList(stg);
+        int x = 0;
+        for (std::wstring item : stg)
+        {
+            if (x == 0) {
+                if (item == L"FAIL") {/*Implementation of defualt item text*/ x++; continue; }
+                std::wstring text;
+                std::string line;
+                DebugTools::Console::_log("Kinda hot ngl", __FUNCTION__);
+                std::ifstream descfile(DebugTools::Downloader::AssetLocation + L"\\HD2DESC.txt");
+                if (descfile.is_open()) {
+                    while (std::getline(descfile, line))
+                    {
+                        text.append(std::wstring(line.begin(), line.end()));
+                    }
+                    DebugTools::Console::_log("Even hotter", __FUNCTION__);  
+                    
+                    DispatcherL.TryEnqueue([this, text] {
+
+                        App_Desc().Text(text);
+
+                    });
+                    
+                    DebugTools::Console::_log("No way", __FUNCTION__);
+                }
+                //Implementation of desc setting here
+
+                x++;
+                continue;
+            }
+            DebugTools::Console::_log("Moment of truth...", __FUNCTION__);
+
+            DispatcherL.TryEnqueue([this, x, item] {
+            Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
+            std::wstring picstring = L"\\" + item;
+            Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
+            Windows::Foundation::Uri urf{ DebugTools::Downloader::RunningDirectory + L"\\No_Image.jpg" };
+            DebugTools::Console::_log("ARe wE ThERe YEt", __FUNCTION__);
+            if (item == L"FAIL")
+            {
+                bitmapImage.UriSource(urf);
+            }
+            else
+            {
+                bitmapImage.UriSource(uri);
+            }
+            DebugTools::Console::_log(L"Current Item: " + item);
+
+            
+
+                switch (x)
+                {
+                case 1:
+                    scren1().ImageSource(bitmapImage);
+                    break;
+
+                case 2:
+                    scren2().ImageSource(bitmapImage);
+                    break;
+                    //This was the old code:
+                    /*
+                    case 1:
+                        break;
+                        scren2().ImageSource(bitmapImage);
+
+                    I can assure you I am NOT a retard
+                    */
+
+                    //Implement other numbers to other images
+                default:
+                    break;
+                }
+
+            });
+
+            //Windows needs to fix thier shit
+
+            
+
+            //Microsoft::UI::Xaml::Media::Imaging::BitmapImage{ Windows::Foundation::Uri{ L"WAssets/HD2100Scale.png" } }
+            DebugTools::Console::_log("Loop: " + std::to_string(x) + "Done", __FUNCTION__);
+            x++;
+        }
+
+        //Close if not already
+        DispatcherL.TryEnqueue([this] {
+
+            InfoBarBeaner().IsOpen(false);
+
+            });
+
+        DebugTools::Console::_log("I said, SUCK MY BALLS MR GARRISON", __FUNCTION__);
+
+
+        // We now close this thanggggggggggggggg
+        //TheInfoBar().IsOpen(false);
+
+        DebugTools::Console::_log("Animam studios is a go", __FUNCTION__);
+#pragma endregion
+
+
+        //co_await ui_thread;
+
+        //SetAssetData(returnlist);
+
+    }
 
     void HelpfulDebuggerv2::SetAssetData(std::list<std::wstring> listarg)
     {
@@ -158,7 +306,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
         // We now close this thanggggggggggggggg
         //TheInfoBar().IsOpen(false);
 
-        DebugTools::Console::_log("No more ft jerks jack", __FUNCTION__);
+        DebugTools::Console::_log("No more ft jers jack", __FUNCTION__);
 
 
     }
@@ -259,27 +407,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
         }
     }
 
-    Windows::Foundation::IAsyncAction HelpfulDebuggerv2::EarlyInTheMornin(std::wstring const& assetloc)
-    {
-
-        winrt::apartment_context ui_thread;
-
-        co_await winrt::resume_background();
-        //Read this on the co_await etc: https://learn.microsoft.com/en-us/windows/uwp/cpp-and-winrt-apis/concurrency-2
-        DebugTools::Downloader downloader;
-        std::list<std::wstring> list = downloader.A_GetHD2Assets(assetloc);
-        std::list<std::wstring> returnlist;
-
-
-        for (std::wstring item : list) {
-            returnlist.push_back(item); //this caused it lol
-        }
-
-        co_await ui_thread;
-
-        SetAssetData(returnlist);
-        
-    }
+    
    
     
     

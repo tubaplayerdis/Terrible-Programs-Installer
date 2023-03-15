@@ -8,6 +8,7 @@
 #include <winnt.h>
 #include <ppltasks.h>
 #include <winrt/Windows.Foundation.h>
+#include <winrt/Microsoft.UI.Dispatching.h>
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
 
@@ -18,13 +19,13 @@ namespace winrt::Terrible_Programs_Installer::implementation
         
         HelpfulDebuggerv2();
         
-
+        Windows::Foundation::IAsyncAction EarlyInTheMornin(std::wstring const& assetloc);
         void SetAssetData(std::list<std::wstring> listarg);
 
         winrt::hstring ScreenShot1();
         void ScreenShot1(winrt::hstring);
 
-        Windows::Foundation::IAsyncAction EarlyInTheMornin(std::wstring const& assetloc);
+        
         concurrency::task<void> TestFunc(std::wstring const& assetloc);
         
         
@@ -36,6 +37,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
         void ChangeDebugElementColors(Microsoft::UI::Xaml::Media::SolidColorBrush color);
         int CheckInternet();
         winrt::hstring m_sc1 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/SplashScreen.scale-100.png";
+        winrt::Microsoft::UI::Dispatching::DispatcherQueue DispatcherL = winrt::Microsoft::UI::Dispatching::DispatcherQueue::GetForCurrentThread();
         
     public:
         void Page_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
