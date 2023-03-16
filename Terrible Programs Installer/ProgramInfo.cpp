@@ -10,7 +10,7 @@ int TPIExtra::ProgramInfo::_windowwidth;
 void TPIExtra::ProgramInfo::_printhandw()
 {
 #if _DEBUG
-	std::cout << "Height:" << _windowheight << "\nWidth:" << _windowheight << "\n";
+	std::cout << "Height:" << _windowheight << "\nWidth:" << _windowwidth << "\n";
 #endif // _DEBUG
 
 }
