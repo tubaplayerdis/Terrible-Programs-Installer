@@ -25,6 +25,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
     SettingsPage::SettingsPage()
     {
         InitializeComponent();
+        UIDispatcher = winrt::Microsoft::UI::Dispatching::DispatcherQueue::GetForCurrentThread();
     }
 
     int32_t SettingsPage::MyProperty()
@@ -37,6 +38,28 @@ namespace winrt::Terrible_Programs_Installer::implementation
         throw hresult_not_implemented();
     }
 
+    Windows::Foundation::IAsyncAction SettingsPage::CheckInternetAsync()
+    {
+        co_await winrt::resume_background(); //Needed to start backround activities
+
+        int res = system("ping 140.82.112.3");
+
+        //Need to do the whole statement due to how c++ works when going into assembly
+        UIDispatcher.TryEnqueue([this, res] {
+            if (res == 0) {
+                DebugTools::Console::_log("Tested connection is active");
+                Server_connect_stat_box().Text(L"Active");
+            }
+            else
+            {
+                DebugTools::Console::_log("Tested connection is active");
+                Server_connect_stat_box().Text(L"Inactive");
+            }
+            });
+
+        
+    }
+
     void SettingsPage::myButton_Click(IInspectable const&, RoutedEventArgs const&)
     {
         //myButton().Content(box_value(L"Clicked"));
@@ -46,18 +69,8 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
 void winrt::Terrible_Programs_Installer::implementation::SettingsPage::Check_Connection_Button_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
 {
-    int res = system("ping 140.82.112.3");
-    if (res == 0) {
-        DebugTools::Console::_log("Tested connection is active");
-        Server_connect_stat_box().Text(L"Active");
-    }
-    else
-    {
-        DebugTools::Console::_log("Tested connection is active");
-        Server_connect_stat_box().Text(L"Inactive");
-    }
-    
-    
+    Server_connect_stat_box().Text(L"Testing...");
+    auto asycstarter{ CheckInternetAsync() };
 }
 
 //the saving system along with value change voids

@@ -14,6 +14,9 @@ namespace winrt::Terrible_Programs_Installer::implementation
         int32_t MyProperty();
         void MyProperty(int32_t value);
 
+        winrt::Microsoft::UI::Dispatching::DispatcherQueue UIDispatcher = winrt::Microsoft::UI::Dispatching::DispatcherQueue::GetForCurrentThread();
+        Windows::Foundation::IAsyncAction CheckInternetAsync();
+
         void save();
         void myButton_Click(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
         void Check_Connection_Button_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);

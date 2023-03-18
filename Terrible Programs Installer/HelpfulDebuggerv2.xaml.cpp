@@ -154,6 +154,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
             }
             DebugTools::Console::_log("Moment of truth...", __FUNCTION__);
 
+            //Need to do the whole statement due to how c++ works when going into assembly
             DispatcherL.TryEnqueue([this, x, item] {
             Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
             std::wstring picstring = L"\\" + item;
@@ -229,6 +230,8 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
     }
 
+
+    //Not being used
     void HelpfulDebuggerv2::SetAssetData(std::list<std::wstring> listarg)
     {
         DebugTools::Console::_log("It inited", __FUNCTION__);
