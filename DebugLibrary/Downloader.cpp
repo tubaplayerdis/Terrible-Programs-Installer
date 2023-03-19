@@ -97,6 +97,10 @@ bool DebugTools::Downloader::_VerifyHD2Cache()
 	DebugTools::Console::_log("Image0 Verified", "HD2 Check Cache");
 	if(!std::filesystem::exists(AssetCheck + L"HD2B.png")) return false;
 	DebugTools::Console::_log("Image1 Verified", "HD2 Check Cache");
+	if (!std::filesystem::exists(AssetCheck + L"HD2C.png")) return false;
+	DebugTools::Console::_log("Image2 Verified", "HD2 Check Cache");
+	if (!std::filesystem::exists(AssetCheck + L"HD2D.png")) return false;
+	DebugTools::Console::_log("Image3 Verified", "HD2 Check Cache");
 
 	//only happens if all checks are passed
 	return true;
@@ -200,7 +204,7 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _ass
 	}	
 
 	//Image1
-	std::wstring dwnld_URL1 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/Nickocaodo.png";
+	std::wstring dwnld_URL1 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image1.png";
 	std::wstring savepath1 = _assetloc + L"\\HD2B.png";
 	if (URLDownloadToFileW(NULL, dwnld_URL1.c_str(), savepath1.c_str(), 0, NULL) == S_OK) {
 		_list.push_back(L"HD2B.png");
@@ -211,6 +215,27 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _ass
 		DebugTools::Console::_log("Failed to download item B", "HD2 Async func");
 	}
 
+	std::wstring dwnld_URL2 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image2.png";
+	std::wstring savepath2 = _assetloc + L"\\HD2C.png";
+	if (URLDownloadToFileW(NULL, dwnld_URL2.c_str(), savepath2.c_str(), 0, NULL) == S_OK) {
+		_list.push_back(L"HD2C.png");
+	}
+	else
+	{
+		_list.push_back(L"FAIL");
+		DebugTools::Console::_log("Failed to download item C", "HD2 Async func");
+	}
+
+	std::wstring dwnld_URL3 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image3.png";
+	std::wstring savepath3 = _assetloc + L"\\HD2D.png";
+	if (URLDownloadToFileW(NULL, dwnld_URL3.c_str(), savepath3.c_str(), 0, NULL) == S_OK) {
+		_list.push_back(L"HD2D.png");
+	}
+	else
+	{
+		_list.push_back(L"FAIL");
+		DebugTools::Console::_log("Failed to download item D", "HD2 Async func");
+	}	
 
 	DebugTools::Downloader::PrintList(_list);
 	return _list;

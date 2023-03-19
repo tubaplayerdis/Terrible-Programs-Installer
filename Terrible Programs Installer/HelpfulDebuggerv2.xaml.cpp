@@ -156,45 +156,40 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
             //Need to do the whole statement due to how c++ works when going into assembly
             DispatcherL.TryEnqueue([this, x, item] {
-            Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
-            std::wstring picstring = L"\\" + item;
-            Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
-            Windows::Foundation::Uri urf{ DebugTools::Downloader::RunningDirectory + L"\\No_Image.jpg" };
-            DebugTools::Console::_log("ARe wE ThERe YEt", __FUNCTION__);
-            if (item == L"FAIL")
-            {
-                bitmapImage.UriSource(urf);
-            }
-            else
-            {
-                bitmapImage.UriSource(uri);
-            }
-            DebugTools::Console::_log(L"Current Item: " + item);
+                Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
+                std::wstring picstring = L"\\" + item;
+                Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
+                Windows::Foundation::Uri urf{ DebugTools::Downloader::RunningDirectory + L"\\No_Image.jpg" };
+                DebugTools::Console::_log("ARe wE ThERe YEt", __FUNCTION__);
+                if (item == L"FAIL")
+                {
+                    bitmapImage.UriSource(urf);
+                }
+                else
+                {
+                    bitmapImage.UriSource(uri);
+                }
+                DebugTools::Console::_log(L"Current Item: " + item);
 
             
-
                 switch (x)
                 {
                 case 1:
                     scren1().ImageSource(bitmapImage);
                     break;
-
                 case 2:
                     scren2().ImageSource(bitmapImage);
                     break;
-                    //This was the old code:
-                    /*
-                    case 1:
-                        break;
-                        scren2().ImageSource(bitmapImage);
-
-                    I can assure you I am NOT a retard
-                    */
-
-                    //Implement other numbers to other images
+                case 3:
+                    scren3().ImageSource(bitmapImage);
+                    break;
+                case 4:
+                    scren4().ImageSource(bitmapImage);
+                    break;
                 default:
                     break;
                 }
+
 
             });
 
@@ -282,16 +277,12 @@ namespace winrt::Terrible_Programs_Installer::implementation
             case 2:
                 scren2().ImageSource(bitmapImage);
                 break;
-                //This was the old code:
-                /*
-                case 1:
-                    break;
-                    scren2().ImageSource(bitmapImage);
-
-                I can assure you I am NOT a retard
-                */
-
-                //Implement other numbers to other images
+            case 3:
+                scren3().ImageSource(bitmapImage);
+                break;
+            case 4:
+                scren4().ImageSource(bitmapImage);
+                break;
             default:
                 break;
             }
@@ -450,12 +441,18 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
         bitmapImage1.UriSource(uri1);
         scren2().ImageSource(bitmapImage1);
         //Image source 3
-
+        Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage2;
+        std::wstring picstring2 = L"\\HD2C.png";
+        Windows::Foundation::Uri uri2{ DebugTools::Downloader::AssetLocation + picstring2 };
+        bitmapImage2.UriSource(uri2);
+        scren2().ImageSource(bitmapImage2);
         //Image source 4
-
-        //Image source 5
-
-        //Image source 6
+        Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage3;
+        std::wstring picstring3 = L"\\HD2C.png";
+        Windows::Foundation::Uri uri3{ DebugTools::Downloader::AssetLocation + picstring3 };
+        bitmapImage3.UriSource(uri3);
+        scren2().ImageSource(bitmapImage3);
+        
         return;
     }
 
