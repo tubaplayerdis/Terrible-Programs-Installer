@@ -3,6 +3,18 @@
 #include <list>
 #include <string>
 namespace DebugTools {
+
+	class TPIAsset
+	{
+	public:
+		TPIAsset(std::wstring DownloadSource, std::wstring ItemName);
+		void DownloadAsset(std::list<std::wstring>& ListToAddTo, std::wstring AssetDirecotry);
+		std::wstring _DownloadSource;
+		std::wstring _ItemName;
+	private:
+
+	};	
+
 	class Downloader
 	{
 	public:

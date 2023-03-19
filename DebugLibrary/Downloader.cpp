@@ -133,7 +133,7 @@ void DebugTools::Downloader::DeleteAssets(bool LogEvent)
 
 void DebugTools::Downloader::PrintList(std::list<std::wstring> const& list)
 {
-	DebugTools::Console::_log(L"Printing Asset List:");
+	DebugTools::Console::_log(L"Printing Asset List:", __FUNCTION__);
 	for (auto const& i : list) {
 		DebugTools::Console::_log(i);
 	}
@@ -176,66 +176,19 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _ass
 
 
 	//NOTE - This code below needs to be memory optimized by changing the vriables instead of making new ones and then deleting them, its a memory leak waiting to happen
-
+	std::list<DebugTools::TPIAsset> DownloadsList{
+		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/descriptions/HD2DESC.txt", L"HD2DESC.txt"),
+		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png", L"HD2A.png"),
+		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image1.png", L"HD2B.png"),
+		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image2.png", L"HD2C.png"),
+		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image1.png", L"HD2D.png")
+	};
 	//Desc
 	//Image0
-	std::wstring dwnld_URL = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/descriptions/HD2DESC.txt";
-	std::wstring savepath = _assetloc + L"\\HD2DESC.txt";
-	if (URLDownloadToFileW(NULL, dwnld_URL.c_str(), savepath.c_str(), 0, NULL) == S_OK) {
-		_list.push_back(L"HD2DESC.txt");
+	for (TPIAsset _TPIAsset : DownloadsList) {
+		DebugTools::Console::_log(L"Attempt download of asset:" + _TPIAsset._ItemName, __FUNCTION__);
+		_TPIAsset.DownloadAsset(_list, AssetLocation);		
 	}
-	else
-	{
-		_list.push_back(L"FAIL");
-		DebugTools::Console::_log("Failed to download item DESC", "HD2 Async func");
-	}
-
-
-	//Image0
-	std::wstring dwnld_URL0 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png";
-	std::wstring savepath0 = _assetloc + L"\\HD2A.png";
-	if (URLDownloadToFileW(NULL, dwnld_URL0.c_str(), savepath0.c_str(), 0, NULL) == S_OK) {
-		_list.push_back(L"HD2A.png");
-	}
-	else
-	{
-		_list.push_back(L"FAIL");
-		DebugTools::Console::_log("Failed to download item A", "HD2 Async func");
-	}	
-
-	//Image1
-	std::wstring dwnld_URL1 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image1.png";
-	std::wstring savepath1 = _assetloc + L"\\HD2B.png";
-	if (URLDownloadToFileW(NULL, dwnld_URL1.c_str(), savepath1.c_str(), 0, NULL) == S_OK) {
-		_list.push_back(L"HD2B.png");
-	}
-	else
-	{
-		_list.push_back(L"FAIL");
-		DebugTools::Console::_log("Failed to download item B", "HD2 Async func");
-	}
-
-	std::wstring dwnld_URL2 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image2.png";
-	std::wstring savepath2 = _assetloc + L"\\HD2C.png";
-	if (URLDownloadToFileW(NULL, dwnld_URL2.c_str(), savepath2.c_str(), 0, NULL) == S_OK) {
-		_list.push_back(L"HD2C.png");
-	}
-	else
-	{
-		_list.push_back(L"FAIL");
-		DebugTools::Console::_log("Failed to download item C", "HD2 Async func");
-	}
-
-	std::wstring dwnld_URL3 = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image3.png";
-	std::wstring savepath3 = _assetloc + L"\\HD2D.png";
-	if (URLDownloadToFileW(NULL, dwnld_URL3.c_str(), savepath3.c_str(), 0, NULL) == S_OK) {
-		_list.push_back(L"HD2D.png");
-	}
-	else
-	{
-		_list.push_back(L"FAIL");
-		DebugTools::Console::_log("Failed to download item D", "HD2 Async func");
-	}	
 
 	DebugTools::Downloader::PrintList(_list);
 	return _list;
@@ -248,5 +201,26 @@ void DebugTools::Downloader::A_GetSCTGAssets()
 
 void DebugTools::Downloader::A_GetPasswordCreatorAssets()
 {
+
+}
+
+DebugTools::TPIAsset::TPIAsset(std::wstring DownloadSource, std::wstring ItemName)
+{
+	_DownloadSource = DownloadSource;
+	_ItemName = ItemName;
+}
+
+void DebugTools::TPIAsset::DownloadAsset(std::list<std::wstring>& ListToAddTo, std::wstring AssetDirecotry)
+{
+	
+	std::wstring savepath = AssetDirecotry + L"\\" + _ItemName;
+	if (URLDownloadToFileW(NULL, _DownloadSource.c_str(), savepath.c_str(), 0, NULL) == S_OK) {
+		ListToAddTo.push_back(_ItemName);
+	}
+	else
+	{
+		ListToAddTo.push_back(L"FAIL");
+		DebugTools::Console::_log(L"Failed to download item:" + _ItemName, __FUNCTION__);
+	}
 
 }
