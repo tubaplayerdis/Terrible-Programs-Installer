@@ -115,10 +115,6 @@ void DebugTools::Downloader::GetSCTGAssets()
 {
 }
 
-void DebugTools::Downloader::GetPasswordCreatorAssets()
-{
-}
-
 void DebugTools::Downloader::DeleteAssets(bool LogEvent)
 {
 	if (!std::filesystem::exists(AssetLocation)) {
@@ -175,7 +171,7 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _ass
 	}
 
 
-	//NOTE - This code below needs to be memory optimized by changing the vriables instead of making new ones and then deleting them, its a memory leak waiting to happen
+	//NOTE - I fixed it
 	std::list<DebugTools::TPIAsset> DownloadsList{
 		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/descriptions/HD2DESC.txt", L"HD2DESC.txt"),
 		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png", L"HD2A.png"),
@@ -183,8 +179,7 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _ass
 		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image2.png", L"HD2C.png"),
 		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image1.png", L"HD2D.png")
 	};
-	//Desc
-	//Image0
+	
 	for (TPIAsset _TPIAsset : DownloadsList) {
 		DebugTools::Console::_log(L"Attempt download of asset:" + _TPIAsset._ItemName, __FUNCTION__);
 		_TPIAsset.DownloadAsset(_list, AssetLocation);		
