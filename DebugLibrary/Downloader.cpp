@@ -216,3 +216,10 @@ void DebugTools::TPIAsset::DownloadAsset(std::list<std::wstring>& ListToAddTo, s
 	}
 
 }
+
+bool DebugTools::TPIAsset::Verify()
+{
+	if (_SavedDir.empty()) return false;
+	if (!std::filesystem::exists(_SavedDir + L"\\" + _ItemName)) return false;
+	return true;
+}

@@ -9,10 +9,11 @@ namespace DebugTools {
 	public:
 		TPIAsset(std::wstring DownloadSource, std::wstring ItemName);
 		void DownloadAsset(std::list<std::wstring>& ListToAddTo, std::wstring AssetDirecotry);
+		bool Verify();
 		std::wstring _DownloadSource;
 		std::wstring _ItemName;
 	private:
-
+		std::wstring _SavedDir;
 	};	
 
 	class Downloader
