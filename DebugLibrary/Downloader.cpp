@@ -15,7 +15,7 @@ std::wstring DebugTools::Downloader::AssetLocation;
 std::wstring DebugTools::Downloader::RunningDirectory;
 
 std::list<DebugTools::TPIAsset> DebugTools::Downloader::HD2Downloads = std::list<DebugTools::TPIAsset>{
-		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/descriptions/HD2DESC.txt", L"HD2DESC.txt"),
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/descriptions/HD2DESC.txt", L"HD2DESC.txt"),//First one has to de desc
 		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png", L"HD2A.png"),
 		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image1.png", L"HD2B.png"),
 		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image2.png", L"HD2C.png"),
