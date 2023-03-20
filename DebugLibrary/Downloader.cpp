@@ -182,7 +182,7 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _ass
 		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png", L"HD2A.png"),
 		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image1.png", L"HD2B.png"),
 		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image2.png", L"HD2C.png"),
-		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image1.png", L"HD2D.png")
+		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image3.png", L"HD2D.png")
 	};
 	
 	for (TPIAsset _TPIAsset : DownloadsList) {
