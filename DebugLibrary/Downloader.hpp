@@ -19,7 +19,7 @@ namespace DebugTools {
 	{
 	public:
 		static void _Initilize();		
-		static std::list<std::wstring> Items;
+		static std::list<std::wstring> HD2Items;
 		static std::wstring AssetLocation;
 		static std::wstring RunningDirectory;
 		static bool _VerifyHD2Cache();

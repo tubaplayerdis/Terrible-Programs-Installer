@@ -93,41 +93,41 @@
                         </ListView.ItemTemplate>
                         -->
 
+                                <!--
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder1"
+                                   CacheMode="BitmapCache" CornerRadius="10,10,10,10">
+                                    
+                                        <Border.Background>
+                                            <ImageBrush x:Name="scren1" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
+                                        </Border.Background>
+                                    </Border>
 
-                                <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder1"
-                               CacheMode="BitmapCache" CornerRadius="10,10,10,10">
-                                    <!-- left-top and bottom-right round corners. -->
-                                    <Border.Background>
-                                        <ImageBrush x:Name="scren1" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
-                                    </Border.Background>
-                                </Border>
 
 
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder2"
+                                   CacheMode="BitmapCache" CornerRadius="10,10,10,10">
+                                    
+                                        <Border.Background>
+                                            <ImageBrush x:Name="scren2" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
+                                        </Border.Background>
+                                    </Border>
 
-                                <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder2"
-                               CacheMode="BitmapCache" CornerRadius="10,10,10,10">
-                                    <!-- left-top and bottom-right round corners. -->
-                                    <Border.Background>
-                                        <ImageBrush x:Name="scren2" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
-                                    </Border.Background>
-                                </Border>
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder3"
+                                   CacheMode="BitmapCache" CornerRadius="10,10,10,10">
+                                    
+                                        <Border.Background>
+                                            <ImageBrush x:Name="scren3" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
+                                        </Border.Background>
+                                    </Border>
 
-                                <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder3"
-                               CacheMode="BitmapCache" CornerRadius="10,10,10,10">
-                                    <!-- left-top and bottom-right round corners. -->
-                                    <Border.Background>
-                                        <ImageBrush x:Name="scren3" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
-                                    </Border.Background>
-                                </Border>
-
-                                <Border HorizontalAlignment="Center" Margin="0" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder4"
-                               CacheMode="BitmapCache" CornerRadius="10,10,10,10">
-                                    <!-- left-top and bottom-right round corners. -->
-                                    <Border.Background>
-                                        <ImageBrush x:Name="scren4" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
-                                    </Border.Background>
-                                </Border>
-
+                                    <Border HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="650"  Height="350" BorderBrush="Transparent" BorderThickness="1" x:Name="AppImageBorder4"
+                                   CacheMode="BitmapCache" CornerRadius="10,10,10,10">
+                                    
+                                        <Border.Background>
+                                            <ImageBrush x:Name="scren4" ImageSource="No_Image.jpg"  Stretch="Fill" ></ImageBrush>
+                                        </Border.Background>
+                                    </Border>
+                            -->
                             </StackPanel>
                         </ScrollViewer>
                         <TextBlock x:Name="App_D" Style="{StaticResource AppTitleCus}" Text="Description:" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"></TextBlock>

@@ -40,11 +40,8 @@ namespace winrt::Terrible_Programs_Installer::implementation
         //Download Assets
         // go to test func below
 
-
-
-
-
-
+                    
+        
 
         InitializeComponent();
         DispatcherL = winrt::Microsoft::UI::Dispatching::DispatcherQueue::GetForCurrentThread();
@@ -156,6 +153,24 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
             //Need to do the whole statement due to how c++ works when going into assembly
             DispatcherL.TryEnqueue([this, x, item] {
+
+                Microsoft::UI::Xaml::Controls::Border theex = Microsoft::UI::Xaml::Controls::Border();
+                theex.HorizontalAlignment(HorizontalAlignment::Center);
+                theex.VerticalAlignment(VerticalAlignment::Bottom);
+                theex.Width(650);
+                theex.Height(350);
+                theex.BorderThickness(ThicknessHelper::FromUniformLength(1));
+                theex.CornerRadius(CornerRadiusHelper::FromRadii(10, 10, 10, 10));
+                theex.Name(L"AppImageBorder" + std::to_wstring(x));
+
+
+                
+
+                Microsoft::UI::Xaml::Media::ImageBrush lol = Microsoft::UI::Xaml::Media::ImageBrush();
+                lol.ImageSource(Microsoft::UI::Xaml::Media::Imaging::BitmapImage(Windows::Foundation::Uri{ DebugTools::Downloader::RunningDirectory + L"\\No_Image.jpg" }));//Default
+
+
+
                 Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
                 std::wstring picstring = L"\\" + item;
                 Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
@@ -169,27 +184,15 @@ namespace winrt::Terrible_Programs_Installer::implementation
                 {
                     bitmapImage.UriSource(uri);
                 }
+                lol.ImageSource(bitmapImage);
+
+                theex.Background(lol);
                 DebugTools::Console::_log(L"Current Item: " + item);
 
             
-                switch (x)
-                {
-                case 1:
-                    scren1().ImageSource(bitmapImage);
-                    break;
-                case 2:
-                    scren2().ImageSource(bitmapImage);
-                    break;
-                case 3:
-                    scren3().ImageSource(bitmapImage);
-                    break;
-                case 4:
-                    scren4().ImageSource(bitmapImage);
-                    break;
-                default:
-                    break;
-                }
+                
 
+                Suckit().Children().Append(theex);
 
             });
 
@@ -229,80 +232,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
     //Not being used
     void HelpfulDebuggerv2::SetAssetData(std::list<std::wstring> listarg)
     {
-        DebugTools::Console::_log("It inited", __FUNCTION__);
-
-
-        std::list<std::wstring> stg = listarg;
-        DebugTools::Downloader::PrintList(stg);
-        int x = 0;
-        for (std::wstring item : stg)
-        {
-            if (x == 0) {
-                if (item == L"FAIL") {/*Implementation of defualt item text*/ x++; continue; }
-                std::wstring text;
-                std::string line;
-                std::ifstream descfile(DebugTools::Downloader::AssetLocation + L"\\HD2DESC.txt");
-                if (descfile.is_open()) {
-                    while (std::getline(descfile, line))
-                    {
-                        text.append(std::wstring(line.begin(), line.end()));
-                    }
-                    App_Desc().Text(text);
-                }
-                //Implementation of desc setting here
-
-                x++;
-                continue;
-            }
-            //DebugTools::Console::_log("Moment of truth...", __FUNCTION__);
-            Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
-            std::wstring picstring = L"\\" + item;
-            Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
-            Windows::Foundation::Uri urf{ DebugTools::Downloader::RunningDirectory + L"\\No_Image.jpg" };
-            if (item == L"FAIL")
-            {
-                bitmapImage.UriSource(urf);
-            }
-            else
-            {
-                bitmapImage.UriSource(uri);
-            }
-            DebugTools::Console::_log(L"Current Item: " + item);
-            switch (x)
-            {
-            case 1:
-                scren1().ImageSource(bitmapImage);
-                break;
-
-            case 2:
-                scren2().ImageSource(bitmapImage);
-                break;
-            case 3:
-                scren3().ImageSource(bitmapImage);
-                break;
-            case 4:
-                scren4().ImageSource(bitmapImage);
-                break;
-            default:
-                break;
-            }
-
-
-
-
-            //Microsoft::UI::Xaml::Media::Imaging::BitmapImage{ Windows::Foundation::Uri{ L"WAssets/HD2100Scale.png" } }
-            DebugTools::Console::_log("Loop: " + std::to_string(x) + "Done", __FUNCTION__);
-            x++;
-        }
-        DebugTools::Console::_log("I said, SUCK MY BALLS MR GARRISON", __FUNCTION__);
-
-
-        // We now close this thanggggggggggggggg
-        //TheInfoBar().IsOpen(false);
-
-        DebugTools::Console::_log("No more ft jers jack", __FUNCTION__);
-
-
+        
     }
 
     winrt::hstring HelpfulDebuggerv2::ScreenShot1()
@@ -428,33 +358,47 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
             }
             App_Desc().Text(text);
         }
-        //Image source 1
-        Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage;
-        std::wstring picstring = L"\\HD2A.png";
-        Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
-        bitmapImage.UriSource(uri);
-        scren1().ImageSource(bitmapImage);
-        //image source 2
-        Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage1;
-        std::wstring picstring1 = L"\\HD2B.png";
-        Windows::Foundation::Uri uri1{ DebugTools::Downloader::AssetLocation + picstring1 };
-        bitmapImage1.UriSource(uri1);
-        scren2().ImageSource(bitmapImage1);
-        //Image source 3
-        Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage2;
-        std::wstring picstring2 = L"\\HD2C.png";
-        Windows::Foundation::Uri uri2{ DebugTools::Downloader::AssetLocation + picstring2 };
-        bitmapImage2.UriSource(uri2);
-        scren2().ImageSource(bitmapImage2);
-        //Image source 4
-        Microsoft::UI::Xaml::Media::Imaging::BitmapImage bitmapImage3;
-        std::wstring picstring3 = L"\\HD2C.png";
-        Windows::Foundation::Uri uri3{ DebugTools::Downloader::AssetLocation + picstring3 };
-        bitmapImage3.UriSource(uri3);
-        scren2().ImageSource(bitmapImage3);
-        
+        int x = 1;
+        for (std::wstring item : DebugTools::Downloader::HD2Items)
+        {
+            if (item == L"HD2DESC.txt") continue;//As to not set pictures to desc
+            DebugTools::Console::_log(L"Current Item: " + item);
+            Microsoft::UI::Xaml::Controls::Border theex = Microsoft::UI::Xaml::Controls::Border();
+            theex.HorizontalAlignment(HorizontalAlignment::Center);
+            theex.VerticalAlignment(VerticalAlignment::Bottom);
+            theex.Width(650);
+            theex.Height(350);
+            theex.BorderThickness(ThicknessHelper::FromUniformLength(1));
+            theex.CornerRadius(CornerRadiusHelper::FromRadii(10, 10, 10, 10));
+            theex.Name(L"AppImageBorder" + std::to_wstring(x));
+
+
+
+
+            Microsoft::UI::Xaml::Media::ImageBrush lol = Microsoft::UI::Xaml::Media::ImageBrush();
+            std::wstring picstring = L"\\" + item;
+            DebugTools::Console::_log(L"Current Item: " + DebugTools::Downloader::AssetLocation + picstring);
+            Microsoft::UI::Xaml::Media::Imaging::BitmapImage lolyes = Microsoft::UI::Xaml::Media::Imaging::BitmapImage();
+            Windows::Foundation::Uri temp{ DebugTools::Downloader::AssetLocation + picstring };
+            
+            lolyes.UriSource(temp);
+            lol.ImageSource(lolyes);
+
+            theex.Background(lol);
+            //DebugTools::Console::_log(L"Current Item: " + item);
+
+
+
+
+            Suckit().Children().Append(theex);
+            x++;
+        }
         return;
     }
+
+        
+        
+    
 
     //The downloading thing yup
     //TheInfoBar().IsOpen(true);

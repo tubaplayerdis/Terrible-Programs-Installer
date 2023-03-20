@@ -10,7 +10,7 @@
 #pragma comment(lib, "urlmon.lib")
 
 //Define objects as to not get a linker error
-std::list<std::wstring> DebugTools::Downloader::Items;
+std::list<std::wstring> DebugTools::Downloader::HD2Items;
 std::wstring DebugTools::Downloader::AssetLocation;
 std::wstring DebugTools::Downloader::RunningDirectory;
 
@@ -62,14 +62,14 @@ void DebugTools::Downloader::GetHD2Assets()
 	std::wstring dwnld_URL = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png";
 	std::wstring savepath = AssetLocation + L"\\HD2A.png";
 	if (URLDownloadToFileW(NULL, dwnld_URL.c_str(), savepath.c_str(), 0, NULL) == S_OK) {
-		Items.assign(1, L"HD2A.png");
+		HD2Items.assign(1, L"HD2A.png");
 	}
 	else
 	{
 		DebugTools::Console::_log("Failed to download item", __FUNCTION__);
 	}
 	
-	DebugTools::Downloader::PrintList(Items);
+	DebugTools::Downloader::PrintList(HD2Items);
 }
 
 bool DebugTools::Downloader::_VerifyHD2Cache()
@@ -90,16 +90,21 @@ bool DebugTools::Downloader::_VerifyHD2Cache()
 
 	//Desc Verify
 	if (!std::filesystem::exists(AssetCheck + L"HD2DESC.txt")) return false;
+	HD2Items.push_back(L"HD2DESC.txt");
 	DebugTools::Console::_log("Description Verified", "HD2 Check Cache");
 	//Image veryify
 
 	if(!std::filesystem::exists(AssetCheck + L"HD2A.png")) return false;
+	HD2Items.push_back(L"HD2A.png");
 	DebugTools::Console::_log("Image0 Verified", "HD2 Check Cache");
 	if(!std::filesystem::exists(AssetCheck + L"HD2B.png")) return false;
+	HD2Items.push_back(L"HD2B.png");
 	DebugTools::Console::_log("Image1 Verified", "HD2 Check Cache");
 	if (!std::filesystem::exists(AssetCheck + L"HD2C.png")) return false;
+	HD2Items.push_back(L"HD2C.png");
 	DebugTools::Console::_log("Image2 Verified", "HD2 Check Cache");
 	if (!std::filesystem::exists(AssetCheck + L"HD2D.png")) return false;
+	HD2Items.push_back(L"HD2D.png");
 	DebugTools::Console::_log("Image3 Verified", "HD2 Check Cache");
 
 	//only happens if all checks are passed

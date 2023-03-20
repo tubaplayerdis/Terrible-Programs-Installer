@@ -18,6 +18,8 @@ namespace winrt::Terrible_Programs_Installer::implementation
     {
         
         HelpfulDebuggerv2();
+
+        
         
         Windows::Foundation::IAsyncAction EarlyInTheMornin(std::wstring const& assetloc);
         void SetAssetData(std::list<std::wstring> listarg);
