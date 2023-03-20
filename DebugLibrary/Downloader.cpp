@@ -14,6 +14,16 @@ std::list<std::wstring> DebugTools::Downloader::HD2Items;
 std::wstring DebugTools::Downloader::AssetLocation;
 std::wstring DebugTools::Downloader::RunningDirectory;
 
+std::list<DebugTools::TPIAsset> DebugTools::Downloader::HD2Downloads = std::list<DebugTools::TPIAsset>{
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/descriptions/HD2DESC.txt", L"HD2DESC.txt"),
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png", L"HD2A.png"),
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image1.png", L"HD2B.png"),
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image2.png", L"HD2C.png"),
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image3.png", L"HD2D.png"),
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/Nickocaodo.png", L"HD2E.png")
+};
+
+
 /*
 Image server edit links
 HD2A:  https://imgbox.com/upload/edit/784485321/pUsyeQesPEViGX6G
@@ -88,25 +98,12 @@ bool DebugTools::Downloader::_VerifyHD2Cache()
 	//self explanatory
 	if(!std::filesystem::exists(AssetLocation)) return false;
 
-	//Desc Verify
-	if (!std::filesystem::exists(AssetCheck + L"HD2DESC.txt")) return false;
-	HD2Items.push_back(L"HD2DESC.txt");
-	DebugTools::Console::_log("Description Verified", "HD2 Check Cache");
-	//Image veryify
-
-	if(!std::filesystem::exists(AssetCheck + L"HD2A.png")) return false;
-	HD2Items.push_back(L"HD2A.png");
-	DebugTools::Console::_log("Image0 Verified", "HD2 Check Cache");
-	if(!std::filesystem::exists(AssetCheck + L"HD2B.png")) return false;
-	HD2Items.push_back(L"HD2B.png");
-	DebugTools::Console::_log("Image1 Verified", "HD2 Check Cache");
-	if (!std::filesystem::exists(AssetCheck + L"HD2C.png")) return false;
-	HD2Items.push_back(L"HD2C.png");
-	DebugTools::Console::_log("Image2 Verified", "HD2 Check Cache");
-	if (!std::filesystem::exists(AssetCheck + L"HD2D.png")) return false;
-	HD2Items.push_back(L"HD2D.png");
-	DebugTools::Console::_log("Image3 Verified", "HD2 Check Cache");
-
+	for (TPIAsset _TPIAsset : HD2Downloads)
+	{
+		if (!std::filesystem::exists(AssetCheck + _TPIAsset._ItemName)) return false;
+		HD2Items.push_back(_TPIAsset._ItemName);
+		DebugTools::Console::_log(L"Verified: " + _TPIAsset._ItemName);
+	}	
 	//only happens if all checks are passed
 	return true;
 
@@ -177,15 +174,10 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _ass
 
 
 	//NOTE - I fixed it
-	std::list<DebugTools::TPIAsset> DownloadsList{
-		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/descriptions/HD2DESC.txt", L"HD2DESC.txt"),
-		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png", L"HD2A.png"),
-		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image1.png", L"HD2B.png"),
-		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image2.png", L"HD2C.png"),
-		TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image3.png", L"HD2D.png")
-	};
 	
-	for (TPIAsset _TPIAsset : DownloadsList) {
+	
+	
+	for (TPIAsset _TPIAsset : HD2Downloads) {
 		DebugTools::Console::_log(L"Attempt download of asset:" + _TPIAsset._ItemName, __FUNCTION__);
 		_TPIAsset.DownloadAsset(_list, AssetLocation);		
 	}

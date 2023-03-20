@@ -361,8 +361,7 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
         int x = 1;
         for (std::wstring item : DebugTools::Downloader::HD2Items)
         {
-            if (item == L"HD2DESC.txt") continue;//As to not set pictures to desc
-            DebugTools::Console::_log(L"Current Item: " + item);
+            if (item == L"HD2DESC.txt") continue;//As to not set pictures to desc            
             Microsoft::UI::Xaml::Controls::Border theex = Microsoft::UI::Xaml::Controls::Border();
             theex.HorizontalAlignment(HorizontalAlignment::Center);
             theex.VerticalAlignment(VerticalAlignment::Bottom);

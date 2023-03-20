@@ -44,6 +44,7 @@ namespace DebugTools {
 
 		static void PrintList(std::list<std::wstring> const& list);
 	private:
+		static std::list<TPIAsset> HD2Downloads;
 		//static void PrintList(std::list<std::wstring> const& list);
 		static std::wstring CurrentWorkingDir();
 		static std::wstring GetExeFileName();
