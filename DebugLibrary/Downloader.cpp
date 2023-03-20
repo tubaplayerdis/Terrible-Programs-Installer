@@ -19,8 +19,7 @@ std::list<DebugTools::TPIAsset> DebugTools::Downloader::HD2Downloads = std::list
 		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png", L"HD2A.png"),
 		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image1.png", L"HD2B.png"),
 		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image2.png", L"HD2C.png"),
-		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image3.png", L"HD2D.png"),
-		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/Nickocaodo.png", L"HD2E.png")
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image3.png", L"HD2D.png")		
 };
 
 
