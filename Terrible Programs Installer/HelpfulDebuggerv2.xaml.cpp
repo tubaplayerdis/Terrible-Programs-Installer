@@ -175,7 +175,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
                 std::wstring picstring = L"\\" + item;
                 Windows::Foundation::Uri uri{ DebugTools::Downloader::AssetLocation + picstring };
                 Windows::Foundation::Uri urf{ DebugTools::Downloader::RunningDirectory + L"\\No_Image.jpg" };
-                DebugTools::Console::_log("ARe wE ThERe YEt", __FUNCTION__);
+                DebugTools::Console::_log("ARe wE ThERe YEt","UI Thread Lambda");
                 if (item == L"FAIL")
                 {
                     bitmapImage.UriSource(urf);
@@ -201,7 +201,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
             
 
             //Microsoft::UI::Xaml::Media::Imaging::BitmapImage{ Windows::Foundation::Uri{ L"WAssets/HD2100Scale.png" } }
-            DebugTools::Console::_log("Loop: " + std::to_string(x) + "Done", __FUNCTION__);
+            DebugTools::Console::_log("Loop: " + std::to_string(x) + "Done", "UI Thread Lambda");
             x++;
         }
 
@@ -358,10 +358,13 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv2::Page
             }
             App_Desc().Text(text);
         }
-        int x = 1;
+        int x = 0;
         for (std::wstring item : DebugTools::Downloader::HD2Items)
         {
-            if (item == L"HD2DESC.txt") continue;//As to not set pictures to desc            
+            if (x == 0) {
+                x++;
+                continue;
+            }//So the first item is always the desc         
             Microsoft::UI::Xaml::Controls::Border theex = Microsoft::UI::Xaml::Controls::Border();
             theex.HorizontalAlignment(HorizontalAlignment::Center);
             theex.VerticalAlignment(VerticalAlignment::Bottom);
