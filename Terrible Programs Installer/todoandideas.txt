@@ -6,7 +6,7 @@ To do:
 Ideas:
 
 
-Master control system to deicded which app gets loaded in when loading storepage(HelpfulDebuggerv2.xaml), seperate all the icon loading blah blah
+no master control system cuase fuck that
 logging system where if application errors, write it console cache to log, maybe use another app? - i "have" to do this
 Fix async system - DONE
 
