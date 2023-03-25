@@ -32,7 +32,7 @@
                     <NavigationViewItem x:Name="ABT" Tag="ABT">About</NavigationViewItem>
                     <NavigationViewItemHeader>Available Programs</NavigationViewItemHeader>
                     <NavigationViewItem Tag="HB2">Helpful DebuggerV2.0</NavigationViewItem>
-                    <NavigationViewItem>Helpful DebuggerV1.0</NavigationViewItem>
+                    <NavigationViewItem Tag="HB1">Helpful DebuggerV1.0</NavigationViewItem>
                     <NavigationViewItem>Social Credit Test Game</NavigationViewItem>
                     <NavigationViewItem>Password Generator</NavigationViewItem>
                     <NavigationViewItemHeader>Coming Evantually</NavigationViewItemHeader>

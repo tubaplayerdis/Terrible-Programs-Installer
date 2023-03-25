@@ -11,6 +11,7 @@
 
 //Define objects as to not get a linker error
 std::list<std::wstring> DebugTools::Downloader::HD2Items;
+std::list<std::wstring> DebugTools::Downloader::HD1Items;
 std::wstring DebugTools::Downloader::AssetLocation;
 std::wstring DebugTools::Downloader::RunningDirectory;
 
@@ -20,6 +21,14 @@ std::list<DebugTools::TPIAsset> DebugTools::Downloader::HD2Downloads = std::list
 		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image1.png", L"HD2B.png"),
 		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image2.png", L"HD2C.png"),
 		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image3.png", L"HD2D.png")		
+};
+
+std::list<DebugTools::TPIAsset> DebugTools::Downloader::HD1Downloads = std::list<DebugTools::TPIAsset>{
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/descriptions/HD1DESC.txt", L"HD1DESC.txt"),//First one has to be description
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD1/image1.png", L"HD1A.png"),
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD1/image2.png", L"HD1B.png"),
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD1/image3.png", L"HD1C.png"),
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD1/image4.png", L"HD1D.png")
 };
 
 
@@ -55,31 +64,6 @@ void DebugTools::Downloader::_Initilize()
 	DebugTools::Console::_log(L"Asset Loc: " + AssetLocation);
 }
 
-//Do not use this please it does not work ok?
-void DebugTools::Downloader::GetHD2Assets()
-{
-	DebugTools::Console::_log(L"Checking assets directory location existance", __FUNCTION__);
-	if (!std::filesystem::exists(AssetLocation)) {
-		DebugTools::Console::_log(L"Directory does not exist, creating", __FUNCTION__);
-		std::string RD(AssetLocation.begin(), AssetLocation.end());		
-		if (_mkdir(RD.c_str()) == 0) { DebugTools::Console::_log("Direcotory Created", __FUNCTION__); }
-		else
-		{
-			DebugTools::Console::_log("Direcotory failed creation", __FUNCTION__);
-		}
-	}
-	std::wstring dwnld_URL = L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD2/image0.png";
-	std::wstring savepath = AssetLocation + L"\\HD2A.png";
-	if (URLDownloadToFileW(NULL, dwnld_URL.c_str(), savepath.c_str(), 0, NULL) == S_OK) {
-		HD2Items.assign(1, L"HD2A.png");
-	}
-	else
-	{
-		DebugTools::Console::_log("Failed to download item", __FUNCTION__);
-	}
-	
-	DebugTools::Downloader::PrintList(HD2Items);
-}
 
 bool DebugTools::Downloader::_VerifyHD2Cache()
 {
@@ -101,19 +85,28 @@ bool DebugTools::Downloader::_VerifyHD2Cache()
 	{
 		if (!std::filesystem::exists(AssetCheck + _TPIAsset._ItemName)) return false;
 		HD2Items.push_back(_TPIAsset._ItemName);
-		DebugTools::Console::_log(L"Verified: " + _TPIAsset._ItemName);
+		DebugTools::Console::_log(L"Verified: " + _TPIAsset._ItemName, __FUNCTION__);
 	}	
 	//only happens if all checks are passed
 	return true;
 
 }
 
-void DebugTools::Downloader::GetHD1Assets()
+bool DebugTools::Downloader::_VerifyHD1Cache()
 {
-}
+	std::wstring AssetCheck = AssetLocation + L"\\";
 
-void DebugTools::Downloader::GetSCTGAssets()
-{
+	//self explanatory
+	if (!std::filesystem::exists(AssetLocation)) return false;
+
+	for (TPIAsset _TPIAsset : HD1Downloads)
+	{
+		if (!std::filesystem::exists(AssetCheck + _TPIAsset._ItemName)) return false;
+		HD1Items.push_back(_TPIAsset._ItemName);
+		DebugTools::Console::_log(L"Verified: " + _TPIAsset._ItemName, __FUNCTION__);
+	}
+	//only happens if all checks are passed
+	return true;
 }
 
 void DebugTools::Downloader::DeleteAssets(bool LogEvent)
@@ -128,12 +121,30 @@ void DebugTools::Downloader::DeleteAssets(bool LogEvent)
 	if (LogEvent) { DebugTools::Console::_log(L"Deleted Assets", __FUNCTION__); }
 }
 
-void DebugTools::Downloader::PrintList(std::list<std::wstring> const& list)
+void DebugTools::Downloader::PrintList(std::list<std::wstring> const& list, std::wstring listname)
 {
-	DebugTools::Console::_log(L"Printing Asset List:", __FUNCTION__);
+	DebugTools::Console::_log(L"Printing " + listname + L"list:", __FUNCTION__);
 	for (auto const& i : list) {
 		DebugTools::Console::_log(i);
 	}
+}
+
+DebugTools::DirReturns DebugTools::Downloader::CheckAndCreateDir()
+{	
+	std::wstring _assetloc = AssetLocation;
+	DebugTools::Console::_log(L"Checking assets directory location existance", __FUNCTION__);
+	if (!std::filesystem::exists(_assetloc)) {
+		DebugTools::Console::_log(L"Directory does not exist, creating", __FUNCTION__);
+		std::string RD(_assetloc.begin(), _assetloc.end());
+		if (_mkdir(RD.c_str()) == 0) { DebugTools::Console::_log("Direcotory Created", __FUNCTION__); return DirectoryCreated; }
+		else
+		{
+			DebugTools::Console::_log("Directory failed creation", __FUNCTION__);
+			return DirectoryFailedCreation;
+		}
+	}
+	DebugTools::Console::_log(L"Directory already existed", __FUNCTION__);
+	return DirectoryExists;
 }
 
 std::wstring DebugTools::Downloader::CurrentWorkingDir()
@@ -151,37 +162,59 @@ std::wstring DebugTools::Downloader::GetExeFileName()
 
 //async stuff
 
-void DebugTools::Downloader::A_GetHD1Assets() 
+std::list<std::wstring> DebugTools::Downloader::A_GetHD1Assets()
 {
-	
-}
-
-std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(std::wstring _assetloc)
-{
-	DebugTools::Console::_log(L"Starting mission impossible", "HD2 Async func");
-	std::list<std::wstring> _list;
-	DebugTools::Console::_log(L"Checking assets directory location existance", "HD2 Async func");
-	if (!std::filesystem::exists(_assetloc)) {
-		DebugTools::Console::_log(L"Directory does not exist, creating", "HD2 Async func");
-		std::string RD(_assetloc.begin(), _assetloc.end());
-		if (_mkdir(RD.c_str()) == 0) { DebugTools::Console::_log("Direcotory Created", "HD2 Async func"); }
-		else
-		{
-			DebugTools::Console::_log("Direcotory failed creation", "HD2 Async func");
-		}
+	switch (CheckAndCreateDir())
+	{
+	case 0:
+		DebugTools::Console::_log(L"Directory Existed", __FUNCTION__);
+		break;
+	case 1:
+		DebugTools::Console::_log(L"Directory Was Created", __FUNCTION__);
+		break;
+	case 2:
+		DebugTools::Console::_log(L"Directory Fialed Creation", __FUNCTION__);
+		break;
+	default:
+		DebugTools::Console::_log(L"Defaulted On Check and Create Dir", __FUNCTION__);
+		break;
 	}
 
+	std::list<std::wstring> _list;
+	for (TPIAsset _TPIAsset : HD1Downloads) {
+		DebugTools::Console::_log(L"Attempt download of asset:" + _TPIAsset._ItemName, __FUNCTION__);
+		_TPIAsset.DownloadAsset(_list, AssetLocation);
+	}
 
-	//NOTE - I fixed it
-	
-	
-	
+	DebugTools::Downloader::PrintList(_list, L"HD1Downloads");
+	return _list;
+}
+
+std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets()
+{
+	switch (CheckAndCreateDir())
+	{
+	case 0:
+		DebugTools::Console::_log(L"Directory Existed", __FUNCTION__);
+		break;
+	case 1:
+		DebugTools::Console::_log(L"Directory Was Created", __FUNCTION__);
+		break;		
+	case 2:
+		DebugTools::Console::_log(L"Directory Fialed Creation", __FUNCTION__);
+		break;
+	default:
+		DebugTools::Console::_log(L"Defaulted On Check and Create Dir", __FUNCTION__);
+		break;
+	}
+
+	std::list<std::wstring> _list;	
 	for (TPIAsset _TPIAsset : HD2Downloads) {
 		DebugTools::Console::_log(L"Attempt download of asset:" + _TPIAsset._ItemName, __FUNCTION__);
 		_TPIAsset.DownloadAsset(_list, AssetLocation);		
 	}
 
-	DebugTools::Downloader::PrintList(_list);
+	DebugTools::Downloader::PrintList(_list, L"HD2Downloads");
 	return _list;
 }
 

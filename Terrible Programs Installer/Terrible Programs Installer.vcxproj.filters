@@ -12,6 +12,9 @@
       <Filter>Settings</Filter>
     </Page>
     <Page Include="Themes\Generic.xaml" />
+    <Page Include="HelpfulDebuggerv1.xaml">
+      <Filter>pages</Filter>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl" />

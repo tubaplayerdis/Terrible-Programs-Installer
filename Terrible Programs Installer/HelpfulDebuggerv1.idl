@@ -1,0 +1,12 @@
+// Copyright (c) Microsoft Corporation and Contributors.
+// Licensed under the MIT License.
+
+namespace Terrible_Programs_Installer
+{
+    [default_interface]
+    runtimeclass HelpfulDebuggerv1 : Microsoft.UI.Xaml.Controls.Page
+    {
+        HelpfulDebuggerv1();
+        Int32 MyProperty;
+    }
+}

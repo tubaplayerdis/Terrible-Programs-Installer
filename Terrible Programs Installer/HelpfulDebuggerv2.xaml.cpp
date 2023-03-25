@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 #include "pch.h"
+#include <windows.h>
 #include "HelpfulDebuggerv2.xaml.h"
 #include <winrt/Microsoft.UI.Windowing.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Imaging.h> //Needed for bitmap image please dont remove, ill put it in pch
@@ -17,7 +18,6 @@
 #include "SettingsClass.hpp"
 #include "Downloader.hpp"
 #include <ppltasks.h>
-#include <windows.h>
 #include <winuser.h>
 #include <fstream>
 #include "ProgramInfo.h"
@@ -57,7 +57,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
             {
                 concurrency::task_completion_event<void> stuff;
         DebugTools::Downloader downloader;
-        std::list<std::wstring> list = downloader.A_GetHD2Assets(assetloc);
+        std::list<std::wstring> list = downloader.A_GetHD2Assets();
         std::list<std::wstring> returnlist;
 
 
@@ -97,7 +97,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
         
 #pragma region Downloader
         DebugTools::Downloader downloader;
-        std::list<std::wstring> list = downloader.A_GetHD2Assets(assetloc);
+        std::list<std::wstring> list = downloader.A_GetHD2Assets();
         std::list<std::wstring> returnlist;
 
 
@@ -119,7 +119,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
 
         std::list<std::wstring> stg = returnlist;
-        DebugTools::Downloader::PrintList(stg);
+        DebugTools::Downloader::PrintList(stg, L"HD2 Downloaded");
         int x = 0;
         for (std::wstring item : stg)
         {
