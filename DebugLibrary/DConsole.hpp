@@ -1,19 +1,24 @@
 #pragma once
 #include <string>
+#include <fstream>
 
 namespace DebugTools {
 	class Console
 	{
 	public: 
+		static bool isConsoleCreation();
 		static bool isConsoleActive();
 		static void _initializeConsole();
 		static void _log(std::wstring input);
 		static void _log(std::wstring input, std::string func);
 		static void _log(std::string input);		
 		static void _log(std::string input, std::string func);
+		static void _openlogfileinfs();
 		static void _clear();
-		static void _destroy();
+		static void _destroy();		
 	private:
+		static std::ofstream TPILOG;
+		static void setConsoleCreationStatus(bool toggle);
 		static void SetConsoleActivation(bool toggle);
 		
 	};

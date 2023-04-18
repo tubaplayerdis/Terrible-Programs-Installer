@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "HelpfulDebuggerv1.xaml.h"
+#include <winrt/Windows.Foundation.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Imaging.h> // for uri source
 #include <fstream>
 #if __has_include("HelpfulDebuggerv1.g.cpp")
@@ -10,6 +11,7 @@
 #endif
 #include <Downloader.hpp>
 #include <DConsole.hpp>
+#include <InfoBarUpdater.h>
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -46,6 +48,9 @@ Windows::Foundation::IAsyncAction winrt::Terrible_Programs_Installer::implementa
         InfoBarBeaner().IsOpen(true);
 
         });
+
+
+    //DebugTools::Helpers::InfoBarUpdater yupers = DebugTools::Helpers::InfoBarUpdater(DispatcherL, InfoBarBeaner(), L"Loading store assets - ");
 
 #pragma region Downloader
     DebugTools::Downloader downloader;
@@ -215,7 +220,7 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv1::Page
             Windows::Foundation::Uri temp{ DebugTools::Downloader::AssetLocation + picstring };
 
             lolyes.UriSource(temp);
-            lol.ImageSource(lolyes);
+            lol.ImageSource(lolyes); 
 
             theex.Background(lol);
             //DebugTools::Console::_log(L"Current Item: " + item);

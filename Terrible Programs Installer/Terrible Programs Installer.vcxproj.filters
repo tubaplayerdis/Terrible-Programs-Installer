@@ -95,9 +95,6 @@
     <Filter Include="Settings">
       <UniqueIdentifier>{c3171748-6559-4550-8305-0d2511179154}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Download">
-      <UniqueIdentifier>{e1d238b0-17e5-4e86-a857-175cdfeee423}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />

@@ -7,6 +7,7 @@
 #include <Urlmon.h>
 #include <direct.h>
 #include <iostream>
+#include <hstring.h>
 #pragma comment(lib, "urlmon.lib")
 
 //Define objects as to not get a linker error
@@ -162,8 +163,10 @@ std::wstring DebugTools::Downloader::GetExeFileName()
 
 //async stuff
 
-std::list<std::wstring> DebugTools::Downloader::A_GetHD1Assets()
+std::list<std::wstring> DebugTools::Downloader::A_GetHD1Assets(/*DebugTools::Helpers::InfoBarUpdater better*/)
 {
+	double progress = 0;
+	//better.set(progress);
 	switch (CheckAndCreateDir())
 	{
 	case 0:
@@ -179,19 +182,24 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD1Assets()
 		DebugTools::Console::_log(L"Defaulted On Check and Create Dir", __FUNCTION__);
 		break;
 	}
-
+	progress = 10;
+	//better.set(progress);
 	std::list<std::wstring> _list;
 	for (TPIAsset _TPIAsset : HD1Downloads) {
 		DebugTools::Console::_log(L"Attempt download of asset:" + _TPIAsset._ItemName, __FUNCTION__);
 		_TPIAsset.DownloadAsset(_list, AssetLocation);
+		progress += 22.5;
+		//better.set(progress);
 	}
 
 	DebugTools::Downloader::PrintList(_list, L"HD1Downloads");
 	return _list;
 }
 
-std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets()
+std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(/*DebugTools::Helpers::InfoBarUpdater better*/)
 {
+	double progress = 0;
+	//better.set(progress);
 	switch (CheckAndCreateDir())
 	{
 	case 0:
@@ -207,11 +215,15 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets()
 		DebugTools::Console::_log(L"Defaulted On Check and Create Dir", __FUNCTION__);
 		break;
 	}
+	progress = 10;
+	//better.set(progress);
 
 	std::list<std::wstring> _list;	
 	for (TPIAsset _TPIAsset : HD2Downloads) {
 		DebugTools::Console::_log(L"Attempt download of asset:" + _TPIAsset._ItemName, __FUNCTION__);
-		_TPIAsset.DownloadAsset(_list, AssetLocation);		
+		_TPIAsset.DownloadAsset(_list, AssetLocation);
+		progress += 22.5;
+		//better.set(progress);
 	}
 
 	DebugTools::Downloader::PrintList(_list, L"HD2Downloads");
@@ -236,10 +248,12 @@ DebugTools::TPIAsset::TPIAsset(std::wstring DownloadSource, std::wstring ItemNam
 
 void DebugTools::TPIAsset::DownloadAsset(std::list<std::wstring>& ListToAddTo, std::wstring AssetDirecotry)
 {
-	
+	Helpers::DownloaderCallback callback;
 	std::wstring savepath = AssetDirecotry + L"\\" + _ItemName;
-	if (URLDownloadToFileW(NULL, _DownloadSource.c_str(), savepath.c_str(), 0, NULL) == S_OK) {
+	DebugTools::Console::_log("Replacement Line");
+	if (URLDownloadToFileW(NULL, _DownloadSource.c_str(), savepath.c_str(), 0, &callback) == S_OK) {
 		ListToAddTo.push_back(_ItemName);
+		
 	}
 	else
 	{
@@ -255,3 +269,5 @@ bool DebugTools::TPIAsset::Verify()
 	if (!std::filesystem::exists(_SavedDir + L"\\" + _ItemName)) return false;
 	return true;
 }
+
+

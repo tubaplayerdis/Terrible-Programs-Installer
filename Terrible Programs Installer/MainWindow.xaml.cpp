@@ -163,3 +163,4 @@ void winrt::Terrible_Programs_Installer::implementation::MainWindow::Window_Clos
 {
     //DebugTools::Downloader::DeleteAssets(false);
 }
+

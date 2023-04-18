@@ -52,7 +52,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
     //FUNCTION IS NOT BEING USED
     concurrency::task<void> HelpfulDebuggerv2::TestFunc(std::wstring const& assetloc)
     {       
-        
+        /*
         return concurrency::create_task([assetloc]
             {
                 concurrency::task_completion_event<void> stuff;
@@ -64,19 +64,24 @@ namespace winrt::Terrible_Programs_Installer::implementation
         for (std::wstring item : list) {
             returnlist.push_back(item); //this caused it lol
         }
-        /*
+        
         Windows::System::DispatcherQueue disp = Windows::System::DispatcherQueue::GetForCurrentThread();
         bool blah = disp.TryEnqueue([shit, returnlist] {
 
             SetAssetData(returnlist);
 
             });
-        */
+        
         
         return;
 
         });
-        
+        */
+        return concurrency::create_task([assetloc]
+            {
+
+
+            });
     }
     
 
@@ -95,6 +100,9 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
         });
         
+        //DebugTools::Helpers::InfoBarUpdater yupers = DebugTools::Helpers::InfoBarUpdater(DispatcherL, InfoBarBeaner(), L"Loading store assets - ");
+        
+
 #pragma region Downloader
         DebugTools::Downloader downloader;
         std::list<std::wstring> list = downloader.A_GetHD2Assets();
