@@ -15,11 +15,13 @@ namespace DebugTools {
 			void OPENINFS();
 			void CLOSEFILE();
 			std::list<std::string> errorlist;
+			std::string _FILENAME;
 
 		private:			
 			std::string GetLastErrorStdStr();
 			std::wstring s2ws(const std::string& s);
-			std::string _FILENAME;
+			std::string ws2s(const std::wstring& s);
+			
 		};
 	}
 

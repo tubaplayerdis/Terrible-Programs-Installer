@@ -103,7 +103,7 @@
                             Delete Chache
                         </Button>
                         <Button
-                            ToolTipService.ToolTip="brah..."
+                            ToolTipService.ToolTip="Dumps errors in the logging system"
                             Padding="3"
                             Margin="10 5"
                             x:Name="DumpErrors"

@@ -1,24 +1,14 @@
 #include "pch.h"
 #include "DConsole.hpp"
 #include <windows.h>
-#include <iostream>
-#include <fstream>
 #include <shellapi.h>
 #include <fileapi.h>
-#include <chrono>
-#include <ctime> 
-#include <codecvt>
-#include <locale>
-#include <iomanip>
-#include <ctime>
 #include <sstream>
 #include <list>
-
-
-#include <errno.h>
 #include "Downloader.hpp"
 #include <Shlwapi.h>
-#define SYSERROR()  errno
+#include <filesystem>
+#include <direct.h>
 
 
 FILE* fp = nullptr;//No initalizer will cause memory leak
@@ -106,6 +96,7 @@ void DebugTools::Console::_clear()
 
 void DebugTools::Console::_dumperrorstoconsole()
 {
+    DebugTools::Console::_log("Current TPILOG: " + TPILOG._FILENAME);
     DebugTools::Console::_log(std::to_string(TPILOG.errorlist.size()), "ERROR COUNT");
     std::list<std::string> copyof = TPILOG.errorlist;
     TPILOG.errorlist.clear();
@@ -153,52 +144,59 @@ DebugTools::Helpers::TPIFILE::TPIFILE(std::string FILENAME)
     GetModuleFileNameA(NULL, buffer, MAX_PATH);
     std::string f = std::string(buffer);
     std::string runningdir = f.substr(0, f.find_last_of("\\/"));
-    
-    _FILENAME = runningdir + "\\tpi" + timestr + ".txt";
-    CreateFileA(_FILENAME.c_str(), GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, _TPIFILEHANDLE);
-    CloseHandle(_TPIFILEHANDLE);
+    runningdir += "\\Logs";
+
+
+    if (!std::filesystem::exists(runningdir)) {        
+        std::string RD(runningdir.begin(), runningdir.end());
+        if (_mkdir(RD.c_str()) == 0) {
+            errorlist.push_back(GetLastErrorStdStr() + "IF \"The system cannot find file specified\", unless logging manfunction, normal activity");
+        }
+    }
+
+    _FILENAME = runningdir + "\\TerribleProgramsInstaller" + timestr + ".log";
+    _TPIFILEHANDLE = CreateFileA(_FILENAME.c_str(), GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);   
+
+    if (_TPIFILEHANDLE == INVALID_HANDLE_VALUE)
+    {
+        errorlist.push_back("There was a Terminal Failure in which the log file could not be created");
+        errorlist.push_back(GetLastErrorStdStr());
+    }
+
 }
 
 void DebugTools::Helpers::TPIFILE::WRITELINE(std::string LINE)
-{
-    CHAR path[MAX_PATH] = {};
-    PathAppendA(path, _FILENAME.c_str());
+{    
     DWORD dwBytesWritten = 0;
     std::string _LINE = LINE + "\n";
-    if (!WriteFile(path, _LINE.c_str(), strlen(_LINE.c_str()), &dwBytesWritten, NULL)) {
+    if (!WriteFile(_TPIFILEHANDLE, _LINE.c_str(), strlen(_LINE.c_str()), &dwBytesWritten, NULL)) {
         errorlist.push_back(GetLastErrorStdStr());
     };
 }
 
 void DebugTools::Helpers::TPIFILE::WRITELINE(std::wstring LINE)
-{
-    CHAR path[MAX_PATH] = {};
-    PathAppendA(path, _FILENAME.c_str());
+{    
     DWORD dwBytesWritten = 0;
     std::wstring _LINE = LINE + L"\n";
-    if (!WriteFile(path, _LINE.c_str(), wcslen(_LINE.c_str()), &dwBytesWritten, NULL)) {
+    if (!WriteFile(_TPIFILEHANDLE, ws2s(_LINE).c_str(), strlen(ws2s(_LINE).c_str()), &dwBytesWritten, NULL)) {
         errorlist.push_back(GetLastErrorStdStr());
     };
 }
 
 void DebugTools::Helpers::TPIFILE::WRITELINE(std::string LINE, std::string FUNC)
-{
-    CHAR path[MAX_PATH] = {};
-    PathAppendA(path, _FILENAME.c_str());
+{    
     DWORD dwBytesWritten = 0;
-    std::string _LINE = FUNC + "():" + LINE + "\n";
-    if (!WriteFile(path, _LINE.c_str(), strlen(_LINE.c_str()), &dwBytesWritten, NULL)) {
+    std::string _LINE = FUNC + "(): " + LINE + "\n";
+    if (!WriteFile(_TPIFILEHANDLE, _LINE.c_str(), strlen(_LINE.c_str()), &dwBytesWritten, NULL)) {
         errorlist.push_back(GetLastErrorStdStr());
     };
 }
 
 void DebugTools::Helpers::TPIFILE::WRITELINE(std::wstring LINE, std::string FUNC)
-{
-    CHAR path[MAX_PATH] = {};
-    PathAppendA(path, _FILENAME.c_str());
+{   
     DWORD dwBytesWritten = 0;
-    std::wstring _LINE = s2ws(FUNC) + L"():" + LINE + L"\n";
-    if (!WriteFile(path, _LINE.c_str(), wcslen(_LINE.c_str()), &dwBytesWritten, NULL)) {
+    std::wstring _LINE = s2ws(FUNC) + L"(): " + LINE + L"\n";
+    if (!WriteFile(_TPIFILEHANDLE, ws2s(_LINE).c_str(), strlen(ws2s(_LINE).c_str()), &dwBytesWritten, NULL)) {
         errorlist.push_back(GetLastErrorStdStr());
     };
 }
@@ -278,6 +276,18 @@ std::wstring DebugTools::Helpers::TPIFILE::s2ws(const std::string& s)
     wchar_t* buf = new wchar_t[len];
     MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
     std::wstring r(buf);
+    delete[] buf;
+    return r;
+}
+
+std::string DebugTools::Helpers::TPIFILE::ws2s(const std::wstring& s)
+{
+    int len;
+    int slength = (int)s.length() + 1;
+    len = WideCharToMultiByte(CP_ACP, 0, s.c_str(), slength, 0, 0, 0, 0);
+    char* buf = new char[len];
+    WideCharToMultiByte(CP_ACP, 0, s.c_str(), slength, buf, len, 0, 0);
+    std::string r(buf);
     delete[] buf;
     return r;
 }
