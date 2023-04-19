@@ -7,7 +7,7 @@ namespace DebugTools {
 	namespace Helpers {
 		class TPIFILE {
 		public:
-			TPIFILE(std::string FILENAME);
+			TPIFILE(); //Class constructor
 			void WRITELINE(std::string LINE);
 			void WRITELINE(std::wstring LINE);	
 			void WRITELINE(std::string LINE, std::string FUNC);

@@ -15,7 +15,7 @@ FILE* fp = nullptr;//No initalizer will cause memory leak
 bool _isConsoleActive = false;
 bool _isConsoleCreation = false;
 bool _isalsoconsole = true; //console + logging
-DebugTools::Helpers::TPIFILE TPILOG = DebugTools::Helpers::TPIFILE("tpilog.txt");
+DebugTools::Helpers::TPIFILE TPILOG = DebugTools::Helpers::TPIFILE();
 HANDLE _TPIFILEHANDLE = nullptr;
 
 bool DebugTools::Console::isConsoleCreation()
@@ -129,7 +129,7 @@ void DebugTools::Console::SetConsoleActivation(bool toggle)
     _isConsoleActive = toggle;
 }
 
-DebugTools::Helpers::TPIFILE::TPIFILE(std::string FILENAME)
+DebugTools::Helpers::TPIFILE::TPIFILE()
 {
     auto t = std::time(nullptr);
 #pragma warning(suppress : 4996) 
