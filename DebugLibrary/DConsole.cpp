@@ -12,9 +12,13 @@
 
 
 FILE* fp = nullptr;//No initalizer will cause memory leak
+
+//------------------------------------MAKE TOGGALABLE IN SETTINGS--------------------
 bool _isConsoleActive = false;
 bool _isConsoleCreation = false;
 bool _isalsoconsole = true; //console + logging
+
+
 DebugTools::Helpers::TPIFILE TPILOG = DebugTools::Helpers::TPIFILE();
 HANDLE _TPIFILEHANDLE = nullptr;
 

@@ -7,7 +7,7 @@ Ideas:
 
 
 update detection like new images and shit, think about this later
-logging system where if application errors, write it console cache to log, maybe use another app? - i "have" to do this
+toggle the "physical" logging system along with the console
 Fix async system - DONE
 
 Notes:
