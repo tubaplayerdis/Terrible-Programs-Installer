@@ -163,3 +163,9 @@ void winrt::Terrible_Programs_Installer::implementation::SettingsPage::DeleteCha
 {
     DebugTools::Downloader::DeleteAssets(true);
 }
+
+
+void winrt::Terrible_Programs_Installer::implementation::SettingsPage::DumpErrors_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+{
+    DebugTools::Console::_dumperrorstoconsole();
+}

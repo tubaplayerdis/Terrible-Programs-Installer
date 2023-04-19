@@ -1,8 +1,28 @@
 #pragma once
 #include <string>
 #include <fstream>
+#include <list>
 
 namespace DebugTools {
+	namespace Helpers {
+		class TPIFILE {
+		public:
+			TPIFILE(std::string FILENAME);
+			void WRITELINE(std::string LINE);
+			void WRITELINE(std::wstring LINE);	
+			void WRITELINE(std::string LINE, std::string FUNC);
+			void WRITELINE(std::wstring LINE, std::string FUNC);
+			void OPENINFS();
+			void CLOSEFILE();
+			std::list<std::string> errorlist;
+
+		private:			
+			std::string GetLastErrorStdStr();
+			std::wstring s2ws(const std::string& s);
+			std::string _FILENAME;
+		};
+	}
+
 	class Console
 	{
 	public: 
@@ -13,11 +33,11 @@ namespace DebugTools {
 		static void _log(std::wstring input, std::string func);
 		static void _log(std::string input);		
 		static void _log(std::string input, std::string func);
+		static void _dumperrorstoconsole();
 		static void _openlogfileinfs();
 		static void _clear();
 		static void _destroy();		
-	private:
-		static std::ofstream TPILOG;
+	private:		
 		static void setConsoleCreationStatus(bool toggle);
 		static void SetConsoleActivation(bool toggle);
 		

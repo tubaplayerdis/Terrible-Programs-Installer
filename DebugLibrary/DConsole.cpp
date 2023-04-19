@@ -4,11 +4,29 @@
 #include <iostream>
 #include <fstream>
 #include <shellapi.h>
+#include <fileapi.h>
+#include <chrono>
+#include <ctime> 
+#include <codecvt>
+#include <locale>
+#include <iomanip>
+#include <ctime>
+#include <sstream>
+#include <list>
+
+
+#include <errno.h>
+#include "Downloader.hpp"
+#include <Shlwapi.h>
+#define SYSERROR()  errno
+
 
 FILE* fp = nullptr;//No initalizer will cause memory leak
 bool _isConsoleActive = false;
 bool _isConsoleCreation = false;
-std::ofstream DebugTools::Console::TPILOG;
+bool _isalsoconsole = true; //console + logging
+DebugTools::Helpers::TPIFILE TPILOG = DebugTools::Helpers::TPIFILE("tpilog.txt");
+HANDLE _TPIFILEHANDLE = nullptr;
 
 bool DebugTools::Console::isConsoleCreation()
 {
@@ -23,10 +41,9 @@ bool DebugTools::Console::isConsoleActive()
 void DebugTools::Console::_initializeConsole()
 {
     if (!isConsoleCreation()) {
-        //Create log file and stream writer
-        TPILOG.open("tpi.log");
-        TPILOG << "No console activation set, creating log...\n";
-        return;
+        //Create log file and stream writer        
+        TPILOG.WRITELINE("No console activation set, creating log...\n");
+        if (!_isalsoconsole) return;
     }
     if (isConsoleActive()) {
         return;
@@ -37,54 +54,68 @@ void DebugTools::Console::_initializeConsole()
     freopen_s(&fp, "CONOUT$", "w", stdout);
     freopen_s(&fp, "CONOUT$", "w", stderr);
     freopen_s(&fp, "CONIN$", "a", stdin);
-    std::cout << "Terrible Programs Installer version 0.01  -  Successfully created debug console\n\n\n";
     SetConsoleActivation(true);
+    std::cout << "Terrible Programs Installer version 0.10  -  Successfully created debug console\n\n\n";         
 }
 
 void DebugTools::Console::_log(std::wstring input)
 {
-    if (!isConsoleCreation()) {
-        TPILOG << input.c_str() << L"\n";
-        return;
+    if (!isConsoleCreation()) {        
+        TPILOG.WRITELINE(input.c_str());
+        if(!_isalsoconsole) return;
     }
-    std::wcout << input + L"\n";
+    if(isConsoleActive()) std::wcout << input + L"\n";
 }
 
 void DebugTools::Console::_log(std::wstring input, std::string func)
 {
-    if (!isConsoleCreation()) {
-        TPILOG << func.c_str() <<L"():" << input.c_str() << L"\n";
-        return;
+    if (!isConsoleCreation()) {        
+        TPILOG.WRITELINE(input.c_str(), func.c_str());
+        if (!_isalsoconsole) return;
     }
-    std::wcout << func.c_str() << L"(): " << input + L"\n";
+    if (isConsoleActive()) std::wcout << func.c_str() << L"(): " << input + L"\n";
 }
 
 void DebugTools::Console::_log(std::string input)
 {
     if (!isConsoleCreation()) {
-        TPILOG << input << L"\n";
-        return;
+        TPILOG.WRITELINE(input);
+        if (!_isalsoconsole) return;
     }
-    std::cout << input + "\n";
+    if (isConsoleActive()) std::cout << input + "\n";
 }
 
 void DebugTools::Console::_log(std::string input, std::string func)
 {
     if (!isConsoleCreation()) {
-        TPILOG << func << "():" << input.c_str() << L"\n";
-        return;
+        TPILOG.WRITELINE(input.c_str(), func.c_str());
+        if (!_isalsoconsole) return;
     }
-    std::cout << func << "(): " << input + "\n";
+    if (isConsoleActive()) std::cout << func << "(): " << input + "\n";
 }
 
 void DebugTools::Console::_openlogfileinfs()
 {
-    ShellExecuteA(NULL, "open", "C:\\", NULL, NULL, SW_SHOWDEFAULT);
+    TPILOG.OPENINFS();
 }
 
 void DebugTools::Console::_clear()
 {
     std::cout.flush();
+}
+
+void DebugTools::Console::_dumperrorstoconsole()
+{
+    DebugTools::Console::_log(std::to_string(TPILOG.errorlist.size()), "ERROR COUNT");
+    std::list<std::string> copyof = TPILOG.errorlist;
+    TPILOG.errorlist.clear();
+    int64_t x = 0;
+    for (std::string var : copyof)
+    {
+        DebugTools::Console::_log(var, "ERROR " + std::to_string(x));
+        x++;
+    }
+    
 }
 
 void DebugTools::Console::_destroy()
@@ -106,3 +137,149 @@ void DebugTools::Console::SetConsoleActivation(bool toggle)
 {
     _isConsoleActive = toggle;
 }
+
+DebugTools::Helpers::TPIFILE::TPIFILE(std::string FILENAME)
+{
+    auto t = std::time(nullptr);
+#pragma warning(suppress : 4996) 
+    auto tm = *std::localtime(&t);   
+
+    std::ostringstream oss;
+    oss << std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
+    std::string timestr = oss.str();
+
+
+    CHAR buffer[MAX_PATH];
+    GetModuleFileNameA(NULL, buffer, MAX_PATH);
+    std::string f = std::string(buffer);
+    std::string runningdir = f.substr(0, f.find_last_of("\\/"));
+    
+    _FILENAME = runningdir + "\\tpi" + timestr + ".txt";
+    CreateFileA(_FILENAME.c_str(), GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, _TPIFILEHANDLE);
+    CloseHandle(_TPIFILEHANDLE);
+}
+
+void DebugTools::Helpers::TPIFILE::WRITELINE(std::string LINE)
+{
+    CHAR path[MAX_PATH] = {};
+    PathAppendA(path, _FILENAME.c_str());
+    DWORD dwBytesWritten = 0;
+    std::string _LINE = LINE + "\n";
+    if (!WriteFile(path, _LINE.c_str(), strlen(_LINE.c_str()), &dwBytesWritten, NULL)) {
+        errorlist.push_back(GetLastErrorStdStr());
+    };
+}
+
+void DebugTools::Helpers::TPIFILE::WRITELINE(std::wstring LINE)
+{
+    CHAR path[MAX_PATH] = {};
+    PathAppendA(path, _FILENAME.c_str());
+    DWORD dwBytesWritten = 0;
+    std::wstring _LINE = LINE + L"\n";
+    if (!WriteFile(path, _LINE.c_str(), wcslen(_LINE.c_str()), &dwBytesWritten, NULL)) {
+        errorlist.push_back(GetLastErrorStdStr());
+    };
+}
+
+void DebugTools::Helpers::TPIFILE::WRITELINE(std::string LINE, std::string FUNC)
+{
+    CHAR path[MAX_PATH] = {};
+    PathAppendA(path, _FILENAME.c_str());
+    DWORD dwBytesWritten = 0;
+    std::string _LINE = FUNC + "():" + LINE + "\n";
+    if (!WriteFile(path, _LINE.c_str(), strlen(_LINE.c_str()), &dwBytesWritten, NULL)) {
+        errorlist.push_back(GetLastErrorStdStr());
+    };
+}
+
+void DebugTools::Helpers::TPIFILE::WRITELINE(std::wstring LINE, std::string FUNC)
+{
+    CHAR path[MAX_PATH] = {};
+    PathAppendA(path, _FILENAME.c_str());
+    DWORD dwBytesWritten = 0;
+    std::wstring _LINE = s2ws(FUNC) + L"():" + LINE + L"\n";
+    if (!WriteFile(path, _LINE.c_str(), wcslen(_LINE.c_str()), &dwBytesWritten, NULL)) {
+        errorlist.push_back(GetLastErrorStdStr());
+    };
+}
+
+void DebugTools::Helpers::TPIFILE::OPENINFS()
+{
+    ShellExecuteA(NULL, "open", _FILENAME.c_str(), NULL, NULL, SW_SHOWDEFAULT);
+}
+
+void DebugTools::Helpers::TPIFILE::CLOSEFILE()
+{
+    CloseHandle(_TPIFILEHANDLE);
+}
+
+std::string DebugTools::Helpers::TPIFILE::GetLastErrorStdStr()
+{
+
+#pragma region GetlastError1
+    /*
+    DWORD error = GetLastError();
+    if (error)
+    {
+        LPVOID lpMsgBuf;
+        DWORD bufLen = FormatMessage(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER |
+            FORMAT_MESSAGE_FROM_SYSTEM |
+            FORMAT_MESSAGE_IGNORE_INSERTS,
+            NULL,
+            error,
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+            (LPTSTR)&lpMsgBuf,
+            0, NULL);
+        if (bufLen)
+        {
+            LPCSTR lpMsgStr = (LPCSTR)lpMsgBuf;
+            std::string result(lpMsgStr, lpMsgStr + bufLen);
+
+            LocalFree(lpMsgBuf);
+
+            return result;
+        }
+    }
+    return std::string();
+    */
+#pragma endregion
+
+#pragma region OtherRegion
+    DWORD errorMessageID = GetLastError();
+
+    if (errorMessageID == 0) {
+        return std::string(); //No error message has been recorded
+    }
+
+    LPSTR messageBuffer = nullptr;
+
+    //Ask Win32 to give us the string version of that message ID.
+    //The parameters we pass in, tell Win32 to create the buffer that holds the message for us (because we don't yet know how long the message string will be).
+    size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+        NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
+
+    //Copy the error message into a std::string.
+    std::string message(messageBuffer, size);
+
+    //Free the Win32's string's buffer.
+    LocalFree(messageBuffer);
+
+    return message;
+#pragma endregion
+
+}
+
+std::wstring DebugTools::Helpers::TPIFILE::s2ws(const std::string& s)
+{
+    int len;
+    int slength = (int)s.length() + 1;
+    len = MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, 0, 0);
+    wchar_t* buf = new wchar_t[len];
+    MultiByteToWideChar(CP_ACP, 0, s.c_str(), slength, buf, len);
+    std::wstring r(buf);
+    delete[] buf;
+    return r;
+}
+
+

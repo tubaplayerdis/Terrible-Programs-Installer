@@ -102,6 +102,15 @@
                             >
                             Delete Chache
                         </Button>
+                        <Button
+                            ToolTipService.ToolTip="brah..."
+                            Padding="3"
+                            Margin="10 5"
+                            x:Name="DumpErrors"
+                            Click="DumpErrors_Click"
+                            >
+                            Dump Errors To Log
+                        </Button>
                         
                         <!--Advanced Settings-->
                         <TextBlock Text="Advanced"

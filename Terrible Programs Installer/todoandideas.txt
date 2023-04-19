@@ -6,7 +6,7 @@ To do:
 Ideas:
 
 
-no master control system cuase fuck that
+update detection like new images and shit, think about this later
 logging system where if application errors, write it console cache to log, maybe use another app? - i "have" to do this
 Fix async system - DONE
 
