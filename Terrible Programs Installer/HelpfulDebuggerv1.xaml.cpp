@@ -11,7 +11,6 @@
 #endif
 #include <Downloader.hpp>
 #include <DConsole.hpp>
-#include <InfoBarUpdater.h>
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;

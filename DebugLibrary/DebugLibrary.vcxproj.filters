@@ -30,7 +30,7 @@
     <ClInclude Include="Downloader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InfoBarUpdater.h">
+    <ClInclude Include="Startup.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,7 +50,7 @@
     <ClCompile Include="Downloader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InfoBarUpdater.cpp">
+    <ClCompile Include="Startup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

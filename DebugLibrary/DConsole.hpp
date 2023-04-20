@@ -22,6 +22,12 @@ namespace DebugTools {
 			std::string ws2s(const std::wstring& s);
 			
 		};
+
+		class StringConverions {
+			static std::string toString(const std::wstring& s);
+			static std::wstring toWString(const std::string& s);
+		};
+
 	}
 
 	class Console
