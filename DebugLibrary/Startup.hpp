@@ -23,7 +23,7 @@ namespace DebugTools {
 		static void Init();
 		static bool UpdateAssets;
 		static std::list<DebugTools::Helpers::StoreApplication> Applications;
-	
+		static bool CheckNullApp();
 	};
 }
 

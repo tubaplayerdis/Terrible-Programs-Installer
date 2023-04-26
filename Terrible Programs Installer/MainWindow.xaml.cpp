@@ -13,6 +13,7 @@
 #include "MainWindow.g.cpp"
 #endif
 #include "ProgramInfo.h"
+#include "boost/lexical_cast.hpp"
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -109,7 +110,9 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
         //Load startup shenanagians
         DebugTools::Startup::Init();
+        bool x = DebugTools::Startup::CheckNullApp();
 
+        DebugTools::Console::_log("Null Application Check - " + boost::lexical_cast<std::string>(x));
 
         TheInfoBar().Message(L"Welcome to TPI.");
         TheInfoBar().IsOpen(true);

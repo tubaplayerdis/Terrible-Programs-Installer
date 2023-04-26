@@ -5,7 +5,7 @@
 #include <urlmon.h>
 #include <filesystem>
 #include <pugixml.hpp>
-#include "boost/lexical_cast.hpp"
+#include <typeinfo>
 
 std::list<DebugTools::Helpers::StoreApplication> DebugTools::Startup::Applications = std::list<DebugTools::Helpers::StoreApplication>{};
 bool DebugTools::Startup::UpdateAssets = true;
@@ -76,10 +76,20 @@ void DebugTools::Startup::Init()
 	for (pugi::xml_node var : apps)
 	{
 		DebugTools::Console::_log(var.name());		
-		DebugTools::Helpers::StoreApplication temp = DebugTools::Helpers::StoreApplication(var.name(), GetBoolFromValue(var.child("available").value(), false), var.child("download").value(), boost::lexical_cast<double>(std::string(var.child("CurrentVerion").value()))); //long one liner //shutup compiler
+		DebugTools::Helpers::StoreApplication temp = DebugTools::Helpers::StoreApplication(var.name(), GetBoolFromValue(var.child("available").value(), false), var.child("download").value(), var.child("CurrentVerion").text().as_double()); //long one liner //shutup compiler
 		Applications.push_back(temp);		
 	}
 	DebugTools::Console::_log("Created Apps classes and added them to the list");
+}
+
+bool DebugTools::Startup::CheckNullApp() {
+	std::list<DebugTools::Helpers::StoreApplication>::iterator it = Applications.begin();
+	std::advance(it, 0);
+	auto work = DebugTools::Helpers::StoreApplication(*it);
+	if (work.Name == "null") {
+		return true;
+	}
+	return false;
 }
 
 DebugTools::Helpers::StoreApplication::StoreApplication(std::string name, bool available, std::string download, double version)
