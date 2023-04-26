@@ -33,6 +33,9 @@
       <Filter>outsiders</Filter>
     </ClCompile>
     <ClCompile Include="ProgramInfo.cpp" />
+    <ClCompile Include="..\DebugLibrary\Startup.cpp">
+      <Filter>outsiders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />

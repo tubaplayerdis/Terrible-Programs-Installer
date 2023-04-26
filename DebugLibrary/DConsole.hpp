@@ -24,6 +24,7 @@ namespace DebugTools {
 		};
 
 		class StringConverions {
+		public:
 			static std::string toString(const std::wstring& s);
 			static std::wstring toWString(const std::string& s);
 		};
@@ -33,7 +34,7 @@ namespace DebugTools {
 	class Console
 	{
 	public: 
-		static bool isConsoleCreation();
+		static bool isLoggingCreation();
 		static bool isConsoleActive();
 		static void _initializeConsole();
 		static void _log(std::wstring input);
@@ -43,9 +44,12 @@ namespace DebugTools {
 		static void _dumperrorstoconsole();
 		static void _openlogfileinfs();
 		static void _clear();
-		static void _destroy();		
-	private:		
-		static void setConsoleCreationStatus(bool toggle);
+		static void _destroy();			
+		static bool _isLoggingCreation;
+		static bool _isalsoconsole;
+	private:
+		static bool _isConsoleActive;
+		static void setLoggingCreationStatus(bool toggle);
 		static void SetConsoleActivation(bool toggle);
 		
 	};

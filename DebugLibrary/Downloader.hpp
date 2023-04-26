@@ -125,11 +125,12 @@ namespace DebugTools {
 		static void DeleteAssets(bool LogEvent);
 
 		static void PrintList(std::list<std::wstring> const& list, std::wstring listname);
+
+		static std::wstring CurrentWorkingDir();
 	private:
 		static std::list<TPIAsset> HD2Downloads;
 		static std::list<TPIAsset> HD1Downloads;
-		//static void PrintList(std::list<std::wstring> const& list);
-		static std::wstring CurrentWorkingDir();
+		//static void PrintList(std::list<std::wstring> const& list);		
 		static std::wstring GetExeFileName();
 	};
 	

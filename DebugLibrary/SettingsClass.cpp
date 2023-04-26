@@ -48,7 +48,7 @@ void DebugTools::SettingsClass::LoadSettings()
 	pugi::xml_document doc;
 
 	pugi::xml_parse_result result = doc.load_file("settings.xml");
-	DebugTools::Console::_log("File load results:");
+	DebugTools::Console::_log("Settings file load results:");
 	DebugTools::Console::_log(result.description());
 	//Checking if the settings exist
 	if (!doc.child("Settings")) {

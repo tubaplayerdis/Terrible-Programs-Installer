@@ -8,6 +8,7 @@
 #include "DConsole.hpp"
 #include "SettingsClass.hpp"
 #include "Downloader.hpp"
+#include "Startup.hpp"
 #if __has_include("MainWindow.g.cpp")
 #include "MainWindow.g.cpp"
 #endif
@@ -49,11 +50,15 @@ namespace winrt::Terrible_Programs_Installer::implementation
     {
 #pragma region ConsoleWork
 
+        DebugTools::Console::_isLoggingCreation = true;
 #if _DEBUG
+        DebugTools::Console::_isalsoconsole = true;
+        //Default on debug
+#else
+        DebugTools::Console::_isalsoconsole = fasle;
+        //Defualt on non-debug
+#endif
         DebugTools::Console::_initializeConsole();
-#endif // DEBUG
-
-        
 
 #pragma endregion
 
@@ -97,10 +102,13 @@ namespace winrt::Terrible_Programs_Installer::implementation
         */
 
         //load in settings
-        DebugTools::SettingsClass::LoadSettings();
+        DebugTools::SettingsClass::LoadSettings();       
 
         //Init In asset Downloader
         DebugTools::Downloader::_Initilize();
+
+        //Load startup shenanagians
+        DebugTools::Startup::Init();
 
 
         TheInfoBar().Message(L"Welcome to TPI.");

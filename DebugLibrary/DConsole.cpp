@@ -14,17 +14,17 @@
 FILE* fp = nullptr;//No initalizer will cause memory leak
 
 //------------------------------------MAKE TOGGALABLE IN SETTINGS--------------------
-bool _isConsoleActive = false;
-bool _isConsoleCreation = false;
-bool _isalsoconsole = true; //console + logging
+bool DebugTools::Console::_isConsoleActive = false;
+bool DebugTools::Console::_isLoggingCreation = true;
+bool DebugTools::Console::_isalsoconsole = true; //enable console as secondhand
 
 
 DebugTools::Helpers::TPIFILE TPILOG = DebugTools::Helpers::TPIFILE();
 HANDLE _TPIFILEHANDLE = nullptr;
 
-bool DebugTools::Console::isConsoleCreation()
+bool DebugTools::Console::isLoggingCreation()
 {
-    return _isConsoleCreation;
+    return _isLoggingCreation;
 }
 
 bool DebugTools::Console::isConsoleActive()
@@ -34,7 +34,7 @@ bool DebugTools::Console::isConsoleActive()
 
 void DebugTools::Console::_initializeConsole()
 {
-    if (!isConsoleCreation()) {
+    if (isLoggingCreation()) {
         //Create log file and stream writer        
         TPILOG.WRITELINE("No console activation set, creating log...\n");
         if (!_isalsoconsole) return;
@@ -54,7 +54,7 @@ void DebugTools::Console::_initializeConsole()
 
 void DebugTools::Console::_log(std::wstring input)
 {
-    if (!isConsoleCreation()) {        
+    if (isLoggingCreation()) {        
         TPILOG.WRITELINE(input.c_str());
         if(!_isalsoconsole) return;
     }
@@ -63,7 +63,7 @@ void DebugTools::Console::_log(std::wstring input)
 
 void DebugTools::Console::_log(std::wstring input, std::string func)
 {
-    if (!isConsoleCreation()) {        
+    if (isLoggingCreation()) {        
         TPILOG.WRITELINE(input.c_str(), func.c_str());
         if (!_isalsoconsole) return;
     }
@@ -72,7 +72,7 @@ void DebugTools::Console::_log(std::wstring input, std::string func)
 
 void DebugTools::Console::_log(std::string input)
 {
-    if (!isConsoleCreation()) {
+    if (isLoggingCreation()) {
         TPILOG.WRITELINE(input);
         if (!_isalsoconsole) return;
     }
@@ -81,7 +81,7 @@ void DebugTools::Console::_log(std::string input)
 
 void DebugTools::Console::_log(std::string input, std::string func)
 {
-    if (!isConsoleCreation()) {
+    if (isLoggingCreation()) {
         TPILOG.WRITELINE(input.c_str(), func.c_str());
         if (!_isalsoconsole) return;
     }
@@ -95,6 +95,7 @@ void DebugTools::Console::_openlogfileinfs()
 
 void DebugTools::Console::_clear()
 {
+    if (!_isalsoconsole) return;
     std::cout.flush();
 }
 
@@ -123,9 +124,9 @@ void DebugTools::Console::_destroy()
     SetConsoleActivation(false);
 }
 
-void DebugTools::Console::setConsoleCreationStatus(bool toggle)
+void DebugTools::Console::setLoggingCreationStatus(bool toggle)
 {
-    _isConsoleCreation = toggle;
+    _isLoggingCreation = toggle;
 }
 
 void DebugTools::Console::SetConsoleActivation(bool toggle)
