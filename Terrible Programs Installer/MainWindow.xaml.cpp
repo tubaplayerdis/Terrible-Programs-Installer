@@ -5,6 +5,7 @@
 #include "MainWindow.xaml.h"
 #include <windows.h>
 #include <winrt/Windows.UI.Xaml.Interop.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include "DConsole.hpp"
 #include "SettingsClass.hpp"
 #include "Downloader.hpp"
@@ -14,6 +15,7 @@
 #endif
 #include "ProgramInfo.h"
 #include "boost/lexical_cast.hpp"
+#include <winrt/Windows.Foundation.h>
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -24,6 +26,7 @@ using namespace Microsoft::UI::Xaml;
 
 namespace winrt::Terrible_Programs_Installer::implementation
 {
+
     MainWindow::MainWindow()
     {
         InitializeComponent();
@@ -46,6 +49,8 @@ namespace winrt::Terrible_Programs_Installer::implementation
         MessageBoxA(nullptr, "Button Was clicked", "if this shows up lol!", MB_OK);
         
     }
+
+    bool showcannotstartup;
 
     void MainWindow::initwindow()
     {
@@ -111,8 +116,10 @@ namespace winrt::Terrible_Programs_Installer::implementation
         //Load startup shenanagians
         DebugTools::Startup::Init();
         bool x = DebugTools::Startup::CheckNullApp();
+        showcannotstartup = x;
 
         DebugTools::Console::_log("Null Application Check - " + boost::lexical_cast<std::string>(x));
+        
 
         TheInfoBar().Message(L"Welcome to TPI.");
         TheInfoBar().IsOpen(true);
@@ -175,3 +182,24 @@ void winrt::Terrible_Programs_Installer::implementation::MainWindow::Window_Clos
     //DebugTools::Downloader::DeleteAssets(false);
 }
 
+
+
+void winrt::Terrible_Programs_Installer::implementation::MainWindow::Window_Activated(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::WindowActivatedEventArgs const& args)
+{
+    
+}
+
+
+void winrt::Terrible_Programs_Installer::implementation::MainWindow::The_NavigationView_Loaded(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+{
+    winrt::Microsoft::UI::Xaml::Controls::ContentDialog nostartupdialog;
+    nostartupdialog.XamlRoot(this->Content().XamlRoot());
+    nostartupdialog.Title(winrt::box_value(L"Cannot download TPI startup file"));
+    nostartupdialog.Content(winrt::box_value(L"To use TPI, It needs to be able to download the startup file which requires access to the internet. even if connect to the internet you will need to relaunch the app to download applications.\nThings you can do to fix:\n\n1. Check if you are connected to the internet\n2.Check if TPI is being blocked by your firewall\nCheck if TPI is being blocked by an antivirus"));
+    nostartupdialog.IsPrimaryButtonEnabled(true);
+    nostartupdialog.PrimaryButtonText(L"Continue");
+
+    if (showcannotstartup) {
+        nostartupdialog.ShowAsync();
+    }
+}

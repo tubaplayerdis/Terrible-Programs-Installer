@@ -11,6 +11,7 @@
 #endif
 #include <Downloader.hpp>
 #include <DConsole.hpp>
+#include <Startup.hpp>
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -242,6 +243,8 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv1::Page
 
 
     auto firstTitleOp{ PopulateAssets() };
+
+    //if(DebugTools::Startup::Applications)
 
     DebugTools::Console::_log("bro idk", __FUNCTION__);
 }

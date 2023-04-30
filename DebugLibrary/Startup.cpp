@@ -9,6 +9,7 @@
 
 std::list<DebugTools::Helpers::StoreApplication> DebugTools::Startup::Applications = std::list<DebugTools::Helpers::StoreApplication>{};
 bool DebugTools::Startup::UpdateAssets = true;
+bool DebugTools::Startup::NullApp = true;
 
 bool GetBoolFromValue(const pugi::char_t* value, bool todefault)
 {
@@ -87,8 +88,10 @@ bool DebugTools::Startup::CheckNullApp() {
 	std::advance(it, 0);
 	auto work = DebugTools::Helpers::StoreApplication(*it);
 	if (work.Name == "null") {
+		NullApp = true;
 		return true;
 	}
+	NullApp = false;
 	return false;
 }
 
