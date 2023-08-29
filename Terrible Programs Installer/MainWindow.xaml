@@ -34,9 +34,9 @@
                     <NavigationViewItemHeader>Available Programs</NavigationViewItemHeader>
                     <NavigationViewItem Tag="HB2">Helpful DebuggerV2.0</NavigationViewItem>
                     <NavigationViewItem Tag="HB1">Helpful DebuggerV1.0</NavigationViewItem>
-                    <NavigationViewItem>Social Credit Test Game</NavigationViewItem>
-                    <NavigationViewItem>Password Generator</NavigationViewItem>
-                    <NavigationViewItemHeader>Coming Evantually</NavigationViewItemHeader>
+                    <NavigationViewItem Tag="SCTG">Social Credit Test Game</NavigationViewItem>
+                <!--       <NavigationViewItem>Password Generator</NavigationViewItem> -->
+                <NavigationViewItemHeader>Coming Evantually</NavigationViewItemHeader>
                     <NavigationViewItem>Nickocado Avocado Game</NavigationViewItem>
                     <NavigationViewItem>Purkaminen Client</NavigationViewItem>
                 </NavigationView.MenuItems>

@@ -168,6 +168,11 @@ void winrt::Terrible_Programs_Installer::implementation::MainWindow::The_Navigat
        The_Frame().Navigate(xaml_typename<Terrible_Programs_Installer::HelpfulDebuggerv1>());
        DebugTools::Console::_log(L"Navigated to:" + the_tag);
    }
+   else if (the_tag == L"SCTG") {
+       //Dont cloase the loading thing
+       The_Frame().Navigate(xaml_typename<Terrible_Programs_Installer::SocialCreditTestGame>());
+       DebugTools::Console::_log(L"Navigated to:" + the_tag);
+   }
    else if(the_tag == L"Settings")
    {
        The_Frame().Navigate(xaml_typename<Terrible_Programs_Installer::SettingsPage>());

@@ -13,6 +13,7 @@
 //Define objects as to not get a linker error
 std::list<std::wstring> DebugTools::Downloader::HD2Items;
 std::list<std::wstring> DebugTools::Downloader::HD1Items;
+std::list<std::wstring> DebugTools::Downloader::SCTGItems;
 std::wstring DebugTools::Downloader::AssetLocation;
 std::wstring DebugTools::Downloader::RunningDirectory;
 
