@@ -108,10 +108,12 @@ namespace DebugTools {
 		static void _Initilize();		
 		static std::list<std::wstring> HD2Items;
 		static std::list<std::wstring> HD1Items;
+		static std::list<std::wstring> SCTGItems;
 		static std::wstring AssetLocation;
 		static std::wstring RunningDirectory;
 		static bool _VerifyHD2Cache();
 		static bool _VerifyHD1Cache();
+		static bool _VerifySCTGCache();
 
 		static DirReturns CheckAndCreateDir();
 
@@ -119,7 +121,7 @@ namespace DebugTools {
 
 		std::list<std::wstring> A_GetHD2Assets(/*DebugTools::Helpers::InfoBarUpdater better*/);
 		std::list<std::wstring> A_GetHD1Assets(/*DebugTools::Helpers::InfoBarUpdater better*/);
-		void A_GetSCTGAssets();
+		std::list<std::wstring> A_GetSCTGAssets();
 		void A_GetPasswordCreatorAssets();
 
 		static void DeleteAssets(bool LogEvent);
@@ -130,6 +132,7 @@ namespace DebugTools {
 	private:
 		static std::list<TPIAsset> HD2Downloads;
 		static std::list<TPIAsset> HD1Downloads;
+		static std::list<TPIAsset> SCTGDownloads;
 		//static void PrintList(std::list<std::wstring> const& list);		
 		static std::wstring GetExeFileName();
 	};

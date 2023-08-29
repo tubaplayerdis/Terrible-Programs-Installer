@@ -137,6 +137,10 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClInclude>
+    <ClInclude Include="SocialCreditTestGame.xaml.h">
+      <DependentUpon>SocialCreditTestGame.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -148,6 +152,9 @@
     </Page>
     <Page Include="MainWindow.xaml" />
     <Page Include="SettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SocialCreditTestGame.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Generic.xaml" />
@@ -181,6 +188,10 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="SocialCreditTestGame.xaml.cpp">
+      <DependentUpon>SocialCreditTestGame.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="App.idl">
@@ -201,6 +212,10 @@
     </Midl>
     <Midl Include="SettingsPage.idl">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Midl>
+    <Midl Include="SocialCreditTestGame.idl">
+      <DependentUpon>SocialCreditTestGame.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Midl>
   </ItemGroup>

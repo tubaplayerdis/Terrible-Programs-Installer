@@ -32,6 +32,14 @@ std::list<DebugTools::TPIAsset> DebugTools::Downloader::HD1Downloads = std::list
 		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD1/image4.png", L"HD1D.png")
 };
 
+std::list<DebugTools::TPIAsset> DebugTools::Downloader::SCTGDownloads = std::list<DebugTools::TPIAsset>{
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/descriptions/HD1DESC.txt", L"SCTGDESC.txt"),//First one has to be description
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD1/image1.png", L"SCTGA.png"),
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD1/image2.png", L"SCTGB.png"),
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD1/image3.png", L"SCTGC.png"),
+		DebugTools::TPIAsset(L"https://github.com/tubaplayerdis/TPI-Assets/raw/main/HD1/image4.png", L"SCTGD.png")
+};
+
 
 /*
 Image server edit links
@@ -104,6 +112,23 @@ bool DebugTools::Downloader::_VerifyHD1Cache()
 	{
 		if (!std::filesystem::exists(AssetCheck + _TPIAsset._ItemName)) return false;
 		HD1Items.push_back(_TPIAsset._ItemName);
+		DebugTools::Console::_log(L"Verified: " + _TPIAsset._ItemName, __FUNCTION__);
+	}
+	//only happens if all checks are passed
+	return true;
+}
+
+bool DebugTools::Downloader::_VerifySCTGCache()
+{
+	std::wstring AssetCheck = AssetLocation + L"\\";
+
+	//self explanatory
+	if (!std::filesystem::exists(AssetLocation)) return false;
+
+	for (TPIAsset _TPIAsset : SCTGDownloads)
+	{
+		if (!std::filesystem::exists(AssetCheck + _TPIAsset._ItemName)) return false;
+		SCTGItems.push_back(_TPIAsset._ItemName);
 		DebugTools::Console::_log(L"Verified: " + _TPIAsset._ItemName, __FUNCTION__);
 	}
 	//only happens if all checks are passed
@@ -230,9 +255,38 @@ std::list<std::wstring> DebugTools::Downloader::A_GetHD2Assets(/*DebugTools::Hel
 	return _list;
 }
 
-void DebugTools::Downloader::A_GetSCTGAssets()
+std::list<std::wstring> DebugTools::Downloader::A_GetSCTGAssets()
 {
+	double progress = 0;
+	//better.set(progress);
+	switch (CheckAndCreateDir())
+	{
+	case 0:
+		DebugTools::Console::_log(L"Directory Existed", __FUNCTION__);
+		break;
+	case 1:
+		DebugTools::Console::_log(L"Directory Was Created", __FUNCTION__);
+		break;
+	case 2:
+		DebugTools::Console::_log(L"Directory Fialed Creation", __FUNCTION__);
+		break;
+	default:
+		DebugTools::Console::_log(L"Defaulted On Check and Create Dir", __FUNCTION__);
+		break;
+	}
+	progress = 10;
+	//better.set(progress);
 
+	std::list<std::wstring> _list;
+	for (TPIAsset _TPIAsset : SCTGDownloads) {
+		DebugTools::Console::_log(L"Attempt download of asset:" + _TPIAsset._ItemName, __FUNCTION__);
+		_TPIAsset.DownloadAsset(_list, AssetLocation);
+		progress += 22.5;
+		//better.set(progress);
+	}
+
+	DebugTools::Downloader::PrintList(_list, L"SCTGDownloads");
+	return _list;
 }
 
 void DebugTools::Downloader::A_GetPasswordCreatorAssets()
