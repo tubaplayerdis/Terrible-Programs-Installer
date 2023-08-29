@@ -16,6 +16,8 @@ namespace winrt::Terrible_Programs_Installer::implementation
 
         winrt::Microsoft::UI::Dispatching::DispatcherQueue UIDispatcher = winrt::Microsoft::UI::Dispatching::DispatcherQueue::GetForCurrentThread();
         Windows::Foundation::IAsyncAction CheckInternetAsync();
+        Windows::Foundation::IAsyncAction CheckDotNetAsync();
+        std::string exec(std::string command);
 
         void save();
         void myButton_Click(Windows::Foundation::IInspectable const& sender, Microsoft::UI::Xaml::RoutedEventArgs const& args);
@@ -28,6 +30,7 @@ namespace winrt::Terrible_Programs_Installer::implementation
         std::wstring GetAppConfig();
         void DeleteChache_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
         void DumpErrors_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
+        void CheckDotNet_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e);
     };
 }
 

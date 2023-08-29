@@ -68,7 +68,7 @@
                 </StackPanel>
             </Border>
 
-            <Border BorderBrush="Aqua" CornerRadius="2,2,2,2" BorderThickness="4,4,4,4" x:Name="ScreenShotsanddescription" Grid.Column="1" >
+            <Border BorderBrush="Transparent" CornerRadius="2,2,2,2" BorderThickness="4,4,4,4" x:Name="ScreenShotsanddescription" Grid.Column="1" >
                 <StackPanel Background="Transparent" Spacing="20" CornerRadius="10" VerticalAlignment="Top">
                     <StackPanel Spacing="10">
                         <TextBlock x:Name="App_Screns" Style="{StaticResource AppTitleCus}" Text="Screenshots:" HorizontalAlignment="Center"></TextBlock>

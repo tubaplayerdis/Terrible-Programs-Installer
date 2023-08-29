@@ -111,6 +111,19 @@
                             >
                             Dump Errors To Log
                         </Button>
+                        <StackPanel Padding="3" Margin="10 5" Orientation="Horizontal" Spacing="10">
+                            <Button
+                            ToolTipService.ToolTip="Test for .Net, which is required my most applications"
+                            Padding="3"
+                            Margin="10 5"
+                            x:Name="CheckDotNet"
+                            Click="CheckDotNet_Click"
+                            >
+                                Check .Net
+                            </Button>
+                            <TextBox x:Name="dotnetstatusbox" IsReadOnly="True"></TextBox>
+                        </StackPanel>
+                        
                         
                         <!--Advanced Settings-->
                         <TextBlock Text="Advanced"

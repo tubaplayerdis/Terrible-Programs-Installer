@@ -7,6 +7,9 @@
 #include "DConsole.hpp"
 #include "Downloader.hpp"
 #include <SettingsClass.hpp>
+#include <stdexcept>
+#include <stdio.h>
+#include <iostream>
 #include <AtlBase.h>
 #include <atlconv.h>
 #include <string>
@@ -58,6 +61,57 @@ namespace winrt::Terrible_Programs_Installer::implementation
             });
 
         
+    }
+
+    Windows::Foundation::IAsyncAction SettingsPage::CheckDotNetAsync()
+    {
+        co_await winrt::resume_background(); //Needed to start backround activities
+
+        std::string res = exec("dotnet sdk check");
+
+        //Need to do the whole statement due to how c++ works when going into assembly
+        UIDispatcher.TryEnqueue([this, res] {
+            DebugTools::Console::_log(res);
+            
+            if (res == "") {
+                DebugTools::Console::_log("No .net");
+                dotnetstatusbox().Text(L"No .Net detected!, please download and install before using applications");
+            }
+
+            if (res.find("Up to date.")) {
+                DebugTools::Console::_log("Up to date .net detected");
+                dotnetstatusbox().Text(L"Up to date .Net");
+            }
+            else
+            {
+                DebugTools::Console::_log(".net was not up to date but is installed");
+                dotnetstatusbox().Text(L"non up to date .Net, applications might not work as expected");
+            }
+            CheckDotNet().IsEnabled(true);
+            });            
+    }
+
+    std::string SettingsPage::exec(std::string command)
+    {
+        char buffer[128];
+        std::string result = "";
+
+        // Open pipe to file
+        FILE* pipe = _popen(command.c_str(), "r");
+        if (!pipe) {
+            return "popen failed!";
+        }
+
+        // read till end of process:
+        while (!feof(pipe)) {
+
+            // use buffer to read and add to result
+            if (fgets(buffer, 128, pipe) != NULL)
+                result += buffer;
+        }
+
+        _pclose(pipe);
+        return result;
     }
 
     void SettingsPage::myButton_Click(IInspectable const&, RoutedEventArgs const&)
@@ -169,4 +223,11 @@ void winrt::Terrible_Programs_Installer::implementation::SettingsPage::DumpError
 {
     DebugTools::Console::_log("Dumping Errors...");
     DebugTools::Console::_dumperrorstoconsole();
+}
+
+
+void winrt::Terrible_Programs_Installer::implementation::SettingsPage::CheckDotNet_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+{
+    CheckDotNet().IsEnabled(false);
+    auto bruh{ CheckDotNetAsync() };
 }

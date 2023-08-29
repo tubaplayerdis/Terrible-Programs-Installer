@@ -12,6 +12,7 @@
 #include <Downloader.hpp>
 #include <DConsole.hpp>
 #include <Startup.hpp>
+#include <AppDownloader.h>
 
 using namespace winrt;
 using namespace Microsoft::UI::Xaml;
@@ -247,4 +248,10 @@ void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv1::Page
     //if(DebugTools::Startup::Applications)
 
     DebugTools::Console::_log("bro idk", __FUNCTION__);
+}
+
+
+void winrt::Terrible_Programs_Installer::implementation::HelpfulDebuggerv1::Button_Click(winrt::Windows::Foundation::IInspectable const& sender, winrt::Microsoft::UI::Xaml::RoutedEventArgs const& e)
+{
+    TPIApplication::AppDownloader::Download(1);
 }

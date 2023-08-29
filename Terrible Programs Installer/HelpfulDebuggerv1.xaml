@@ -60,7 +60,7 @@
                         <TextBlock x:Name="App_Avtex" Style="{StaticResource BodyStrongTextBlockStyle}" Text="Currently available" HorizontalAlignment="Center" TextAlignment="Center"></TextBlock>
                     </StackPanel>
 
-                    <Button HorizontalAlignment="Center" Style="{StaticResource AccentButtonStyle}" >Install</Button>
+                    <Button HorizontalAlignment="Center" Style="{StaticResource AccentButtonStyle}" Click="Button_Click">Install</Button>
 
                 </StackPanel>
             </Border>
